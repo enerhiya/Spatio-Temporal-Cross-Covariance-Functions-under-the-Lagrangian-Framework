@@ -1,5 +1,5 @@
-# Section 5: Application- Raw Data
-## log PM (Particulate Matter) 2.5 (1980-1999)
+# Section 5: Application- Raw Data (1980-1999)
+## log PM (Particulate Matter) 2.5 
 
 ![PM_yr1](application_raw_data_1.gif)
 ![PM_yr2](application_raw_data_2.gif)
@@ -23,7 +23,7 @@
 ![PM_yr20](application_raw_data_20.gif)
 
 
-## log BC (Black Carbon) (1980-1999)
+## log BC (Black Carbon)
 
 ![PM_yr1](application_raw_data_1.gif)
 ![PM_yr2](application_raw_data_2.gif)
