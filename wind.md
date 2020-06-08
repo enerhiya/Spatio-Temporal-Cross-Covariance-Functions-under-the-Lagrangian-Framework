@@ -1,7 +1,7 @@
 # Section 5: Application- Raw Wind Data (1980-1999)
 ## log PM (Particulate Matter) 2.5 
 
-![PM_yr1](Figures/wind/wind_data_1.gif)
+![PM_yr1](Figures/wind/wind_data_1.gif = 200x200)
 ![PM_yr2](Figures/wind/wind_data_1.gif)
 ![PM_yr3](Figures/wind/wind_data_1.gif)
 ![PM_yr4](Figures/wind/wind_data_1.gif)
