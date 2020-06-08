@@ -8,4 +8,11 @@
 <img src="Figures/wind/wind_data_8.gif" width="200">
 <img src="Figures/wind/wind_data_9.gif" width="200">
 <img src="Figures/wind/wind_data_10.gif" width="200">
-<img src="Figures/wind/wind_data_11.gif" width="200">
+<img src="Figures/wind/wind_data_11.gif" width="200"> <img src="Figures/wind/wind_data_12.gif" width="200"> <img src="Figures/wind/wind_data_13.gif" width="200">
+<img src="Figures/wind/wind_data_14.gif" width="200">
+<img src="Figures/wind/wind_data_15.gif" width="200">
+<img src="Figures/wind/wind_data_16.gif" width="200">
+<img src="Figures/wind/wind_data_17.gif" width="200">
+<img src="Figures/wind/wind_data_18.gif" width="200">
+<img src="Figures/wind/wind_data_19.gif" width="200">
+<img src="Figures/wind/wind_data_20.gif" width="200">
