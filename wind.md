@@ -1,48 +1,11 @@
-# Section 5: Application- Raw Data (1980-1999)
-## log PM (Particulate Matter) 2.5 
+# Section 5: Application- Raw Wind Data (1980-1999)
 
-![PM_yr1](Figures/PM/application_raw_data_1.gif)
-![PM_yr2](Figures/PM/application_raw_data_2.gif)
-![PM_yr3](Figures/PM/application_raw_data_3.gif)
-![PM_yr4](Figures/PM/application_raw_data_4.gif)
-![PM_yr5](Figures/PM/application_raw_data_5.gif)
-![PM_yr6](Figures/PM/application_raw_data_6.gif)
-![PM_yr7](Figures/PM/application_raw_data_7.gif)
-![PM_yr8](Figures/PM/application_raw_data_8.gif)
-![PM_yr9](Figures/PM/application_raw_data_9.gif)
-![PM_yr10](Figures/PM/application_raw_data_10.gif)
-![PM_yr11](Figures/PM/application_raw_data_11.gif)
-![PM_yr12](Figures/PM/application_raw_data_12.gif)
-![PM_yr13](Figures/PM/application_raw_data_13.gif)
-![PM_yr14](Figures/PM/application_raw_data_14.gif)
-![PM_yr15](Figures/PM/application_raw_data_15.gif)
-![PM_yr16](Figures/PM/application_raw_data_16.gif)
-![PM_yr17](Figures/PM/application_raw_data_17.gif)
-![PM_yr18](Figures/PM/application_raw_data_18.gif)
-![PM_yr19](Figures/PM/application_raw_data_19.gif)
-![PM_yr20](Figures/PM/application_raw_data_20.gif)
-
-
-## log BC (Black Carbon)
-
-![BC_yr1](Figures/BC/application_raw_data_1.gif)
-![BC_yr2](Figures/BC/application_raw_data_2.gif)
-![BC_yr3](Figures/BC/application_raw_data_3.gif)
-![BC_yr4](Figures/BC/application_raw_data_4.gif)
-![BC_yr5](Figures/BC/application_raw_data_5.gif)
-![BC_yr6](Figures/BC/application_raw_data_6.gif)
-![BC_yr7](Figures/BC/application_raw_data_7.gif)
-![BC_yr8](Figures/BC/application_raw_data_8.gif)
-![BC_yr9](Figures/BC/application_raw_data_9.gif)
-![BC_yr10](Figures/BC/application_raw_data_10.gif)
-![BC_yr11](Figures/BC/application_raw_data_11.gif)
-![BC_yr12](Figures/BC/application_raw_data_12.gif)
-![BC_yr13](Figures/BC/application_raw_data_13.gif)
-![BC_yr14](Figures/BC/application_raw_data_14.gif)
-![BC_yr15](Figures/BC/application_raw_data_15.gif)
-![BC_yr16](Figures/BC/application_raw_data_16.gif)
-![BC_yr17](Figures/BC/application_raw_data_17.gif)
-![BC_yr18](Figures/BC/application_raw_data_18.gif)
-![BC_yr19](Figures/BC/application_raw_data_19.gif)
-![BC_yr20](Figures/BC/application_raw_data_20.gif)
-
+<img src="Figures/wind/wind_data_1.gif" width="200"> <img src="Figures/wind/wind_data_2.gif" width="200"> <img src="Figures/wind/wind_data_3.gif" width="200">
+<img src="Figures/wind/wind_data_4.gif" width="200">
+<img src="Figures/wind/wind_data_5.gif" width="200">
+<img src="Figures/wind/wind_data_6.gif" width="200">
+<img src="Figures/wind/wind_data_7.gif" width="200">
+<img src="Figures/wind/wind_data_8.gif" width="200">
+<img src="Figures/wind/wind_data_9.gif" width="200">
+<img src="Figures/wind/wind_data_10.gif" width="200">
+<img src="Figures/wind/wind_data_11.gif" width="200">
