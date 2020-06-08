@@ -2,25 +2,16 @@
 ## log PM (Particulate Matter) 2.5 
 
 <img src="Figures/wind/wind_data_1.gif" width="200">
-![PM_yr2](Figures/wind/wind_data_1.gif)
-![PM_yr3](Figures/wind/wind_data_1.gif)
-![PM_yr4](Figures/wind/wind_data_1.gif)
-![PM_yr5](Figures/wind/wind_data_1.gif)
-![PM_yr6](Figures/wind/wind_data_1.gif)
-![PM_yr7](Figures/wind/wind_data_1.gif)
-![PM_yr8](Figures/wind/wind_data_1.gif)
-![PM_yr9](Figures/wind/wind_data_1.gif)
-![PM_yr10](Figures/wind/wind_data_1.gif)
-![PM_yr11](Figures/wind/wind_data_1.gif)
-![PM_yr12](Figures/wind/wind_data_1.gif)
-![PM_yr13](Figures/wind/wind_data_1.gif)
-![PM_yr14](Figures/wind/wind_data_1.gif)
-![PM_yr15](Figures/wind/wind_data_1.gif)
-![PM_yr16](Figures/wind/wind_data_1.gif)
-![PM_yr17](Figures/wind/wind_data_1.gif)
-![PM_yr18](Figures/wind/wind_data_1.gif)
-![PM_yr19](Figures/wind/wind_data_1.gif)
-![PM_yr20](Figures/wind/wind_data_1.gif)
+<img src="Figures/wind/wind_data_1.gif" width="200">
+<img src="Figures/wind/wind_data_1.gif" width="200">
+<img src="Figures/wind/wind_data_1.gif" width="200">
+<img src="Figures/wind/wind_data_1.gif" width="200">
+<img src="Figures/wind/wind_data_1.gif" width="200">
+<img src="Figures/wind/wind_data_1.gif" width="200">
+<img src="Figures/wind/wind_data_1.gif" width="200">
+<img src="Figures/wind/wind_data_1.gif" width="200">
+<img src="Figures/wind/wind_data_1.gif" width="200">
+<img src="Figures/wind/wind_data_1.gif" width="200">
 
 
 ## log BC (Black Carbon)
