@@ -16,3 +16,6 @@ wind <- c(0.1001, 0.1001)
 theta <- c(1, 1, 0.23, 0.5, 1)
 
 cov1 <- matern_cov(theta, wind, max_time_lag = t - 1, LOCS = sim_grid_locations)
+
+set.seed(1234)
+r1 <- mvrnorm(1, mu = rep(0, ncol(cov1)), Sigma = cov1)
