@@ -1,5 +1,58 @@
 #---------STATIONARY------------#
-matern_cov <- function(theta, wind, max_time_lag, q, new_locations = locations, meters = T, nug_eff, kap){
+matern_cov <- function(theta, wind, max_time_lag = 0, q = 2, LOCS){
+	
+	w <- wind
+	
+	locs <- coords <- LOCS
+  
+  	if (max_time_lag > 0){
+		for (tt in 1:max_time_lag){
+			temp_locs <- cbind(coords[, 1] - tt * w[1], coords[, 2] - tt * w[2])
+			locs <- rbind(locs, temp_locs)
+		}
+  	} 
+  
+	nu <- theta[1:2]
+	beta <- theta[3]
+	sigma2 <- theta[4:5]
+  
+	dist0 <- dist(locs) %>% as.matrix()	
+
+	S <- matrix(NA,  q * nrow(dist0), q * nrow(dist0))
+  
+	for(i in 1:q){
+		for(j in 1:i){
+
+			temp <- (i - 1) * nrow(dist0) + 1:nrow(dist0)
+	      		temp1 <- (j - 1) * nrow(dist0) + 1:nrow(dist0)
+	      
+	      		if(i == j){
+		
+				temp2 <- ifelse(dist0 != 0, sigma2[i] * (dist0 / beta)^nu[i] * besselK(dist0 / beta, nu[i]) / (2^(nu[i] - 1) * gamma(nu[i])), sigma2[i])
+				S[temp, temp1] <- temp2
+		
+	      		}
+	      
+		      	if(i != j){
+			
+				nu1 <- nu[i]
+				nu2 <- nu[j]
+				nu3 <- (nu1 + nu2)/2
+			
+				rho <- theta[6] * (gamma(nu1 + 3/2) / gamma(nu1))^(1/2) * (gamma(nu2 + 3/2) / gamma(nu2))^(1/2) * gamma(nu3) / (gamma(nu3 + 3/2))
+			
+				temp3 <- (dist0 / beta)^nu3 * besselK(dist0 / beta, nu3)/(2^(nu3 - 1) * gamma(nu3)) * sqrt(sigma2[i] * sigma2[j]) * rho
+				temp3[is.na(temp3)] <- sqrt(sigma2[i] * sigma2[j]) * rho
+				S[temp, temp1] <- temp3
+				S[temp1, temp] <- t(temp3)
+		      }
+	    	}
+	  }
+  
+	return(S)
+}
+
+matern_cov_soph <- function(theta, wind, max_time_lag, q, new_locations = locations, meters = T, nug_eff = F, kap = F){
   
   w <- wind
   
