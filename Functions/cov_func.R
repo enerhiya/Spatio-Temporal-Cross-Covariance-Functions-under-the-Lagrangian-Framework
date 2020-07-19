@@ -16,7 +16,7 @@ matern_cov <- function(theta, wind, max_time_lag = 0, q = 2, LOCS){
 	beta <- theta[3]
 	sigma2 <- theta[1:2]
   
-	dist0 <- dist(locs) %>% as.matrix()	
+	dist0 <- parDist(x = locs, method = "euclidean") %>% as.matrix()	
 
 	S <- matrix(NA,  q * nrow(dist0), q * nrow(dist0))
   
@@ -51,6 +51,12 @@ matern_cov <- function(theta, wind, max_time_lag = 0, q = 2, LOCS){
   
 	return(S)
 }
+
+
+
+#------------------------------- END ----------------------------#
+
+
 
 matern_cov_soph <- function(theta, wind, max_time_lag, q, new_locations = locations, meters = T, nug_eff = F, kap = F){
   
