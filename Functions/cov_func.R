@@ -1,5 +1,5 @@
 #---------STATIONARY------------#
-matern_cov <- function(theta, wind, max_time_lag = 0, q = 2, LOCS){
+frozen_matern_cov <- function(theta, wind, max_time_lag = 0, q = 2, LOCS){
 	
 	w <- wind
 	
