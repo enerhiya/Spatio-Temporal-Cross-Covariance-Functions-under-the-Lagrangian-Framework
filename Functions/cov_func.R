@@ -12,9 +12,9 @@ matern_cov <- function(theta, wind, max_time_lag = 0, q = 2, LOCS){
 		}
   	} 
   
-	nu <- theta[1:2]
+	nu <- theta[4:5]
 	beta <- theta[3]
-	sigma2 <- theta[4:5]
+	sigma2 <- theta[1:2]
   
 	dist0 <- dist(locs) %>% as.matrix()	
 
