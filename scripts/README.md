@@ -3,3 +3,5 @@
 1. Run simulation.R
 	1. change the *directory* name to where you git clone this repository 
 	2. change the *ncores* in the rmvn function when simulating realizations from the covariance
+2. Reproduce plots
+	1. change the *directory* name in the file auxiliary_functions.R

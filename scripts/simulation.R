@@ -5,12 +5,25 @@ root <- paste(directory, 'Spatio-Temporal-Cross-Covariance-Functions-under-the-L
 source(file = paste(root, "Functions/load_packages.R", sep = ''))
 source(file = paste(root, "Functions/auxiliary_functions.R", sep = ''))
 source(file = paste(root, "Functions/cov_func.R", sep = ''))
+source(file = paste(root, "Functions/plot_func.R", sep = ''))
 
 load_default_data = F
 
 if(load_default_data){
 
-	r1 <- read.table(paste(root, "Data/frozen_matern_realizations", sep = ''), header = FALSE, sep = ",")
+	r1 <- read.table(paste(root, "Data/frozen_matern_realizations", sep = ''), header = FALSE, sep = ",") %>% as.matrix() 
+	locs <- read.table(paste(root, "Data/simulation_locs", sep = ''), header = FALSE, sep = " ") %>% as.matrix() 
+	TT <- max(unique(locs[, 3]))
+	n <- nrow(locs)/TT	
+
+	realizations <- list()
+
+	realizations[[1]] <- r1
+	realizations[[2]] <- r1
+	realizations[[3]] <- r1
+	realizations[[4]] <- r1
+	
+	fig2(REALIZATIONS = realizations, file_name = paste(root, 'Figures/simulation_realizations.pdf', sep = ''), LOCS = locs[1:n, 1:2])
 
 }else{
 
@@ -20,6 +33,8 @@ if(load_default_data){
 	grid_x <- seq(from = 0, to = 1, length.out = N)
 	grid_y <- seq(from = 0, to = 1, length.out = N)
 	sim_grid_locations <- expand.grid(grid_x, grid_y) %>% as.matrix()
+
+	write_to_txt(rbind(cbind(sim_grid_locations, 1), cbind(sim_grid_locations, 2), cbind(sim_grid_locations, 3), cbind(sim_grid_locations, 4), cbind(sim_grid_locations, 5)), paste(root, "Data/simulation_locs", sep = ''))
 
 	wind <- c(0.1001, 0.1001)
 	theta <- c(1, 1, 0.23, 0.5, 1, 0.8)
