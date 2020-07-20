@@ -56,6 +56,49 @@ frozen_matern_cov <- function(theta, wind, max_time_lag = 0, q = 2, LOCS){
 	return(S)
 }
 
+frozen_matern_cov_for_heatmap <- function(theta, wind, q = 2){
+
+	###################															###################
+	################### RETURNS a q * nrow(LOCS) * (max_time_lag + 1) x 3 matrix of covariance values with respect to location (0,0) 	###################
+	###################															###################	
+
+	N <- 51
+        n <- N^2
+        TT <- 3
+        grid_x <- seq(from = -0.5, to = 0.5, length.out = N)
+	sim_grid_locations <- expand.grid(grid_x, grid_x) %>% as.matrix()
+
+	w <- wind
+	
+	nu <- theta[4:5]
+	beta <- theta[3]
+	sigma2 <- theta[1:2]
+
+	nu1 <- nu[1]
+	nu2 <- nu[2]
+	nu3 <- (nu1 + nu2)/2
+	rho <- theta[6] * (gamma(nu1 + 3/2) / gamma(nu1))^(1/2) * (gamma(nu2 + 3/2) / gamma(nu2))^(1/2) * gamma(nu3) / (gamma(nu3 + 3/2))
+
+	S <- matrix(NA,  n * TT, 3)
+
+	for(i in 1:3){
+		for(tt in 0:(TT - 1)){
+
+			for(l in 1:nrow(sim_grid_locations)){
+
+				temp_locs <- rbind(cbind(0, 0), cbind(sim_grid_locations[l, 1] - tt * w[1], sim_grid_locations[l, 2] - tt * w[2]))
+				dist0 <- dist(temp_locs) %>% as.numeric()
+				
+				if(i < 3) temp2 <- ifelse(dist0 != 0, sigma2[i] * (dist0 / beta)^nu[i] * besselK(dist0 / beta, nu[i]) / (2^(nu[i] - 1) * gamma(nu[i])), sigma2[i])
+				else temp2 <- ifelse(dist0 != 0, (dist0 / beta)^nu3 * besselK(dist0 / beta, nu3)/(2^(nu3 - 1) * gamma(nu3)) * sqrt(sigma2[1] * sigma2[2]) * rho, sqrt(sigma2[1] * sigma2[2]) * rho)
+				S[tt * n + l, i] <- temp2 
+			}
+		}
+	}
+
+	return(S)
+}
+
 
 
 #------------------------------- END ----------------------------#
