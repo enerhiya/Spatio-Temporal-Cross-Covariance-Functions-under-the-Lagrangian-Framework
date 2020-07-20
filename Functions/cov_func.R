@@ -1,6 +1,10 @@
 #---------STATIONARY------------#
 frozen_matern_cov <- function(theta, wind, max_time_lag = 0, q = 2, LOCS){
-	
+
+	###################												###################
+	################### RETURNS a q * nrow(LOCS) * (max_time_lag + 1) x q * nrow(LOCS) * (max_time_lag + 1) matrix 	###################
+	###################												###################	
+
 	w <- wind
 	
 	locs <- coords <- LOCS
