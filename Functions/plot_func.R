@@ -66,13 +66,13 @@ fig1 <- function(COVARIANCES, LOCS, file_name){
 
 				if(tt == 1 & (model == 1 | model == 3)){
 					mtext(expression(s[y]), side = 2, line = 2, cex = 1)
-                                        axis(2, at = seq(0, 1, length.out = 6))
-				}else if(variable == 2 & (model == 3 | model == 4)){
+                                        axis(2, at = seq(-0.5, 0.5, length.out = 6))
+				}else if(variable == 3 & (model == 3 | model == 4)){
 					mtext(expression(s[x]), side = 1, line = 2, cex = 1)
-                                        axis(1, at = seq(0, 1, length.out = 6))
+                                        axis(1, at = seq(-0.5, 0.5, length.out = 6))
 				}
-				if(variable == 2 & model == 3 & tt == 1){
-                                        axis(1, at = seq(0, 1, length.out = 6))
+				if(variable == 3 & model == 3 & tt == 1){
+                                        axis(1, at = seq(-0.5, 0.5, length.out = 6))
                                         mtext(expression(s[x]), side = 1, line = 2, cex = 1)
                                 }
 

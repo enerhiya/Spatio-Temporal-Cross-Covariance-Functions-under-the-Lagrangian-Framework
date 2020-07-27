@@ -23,3 +23,4 @@ library(SDMTools)
 library(mixtools)
 library(mvnfast)
 library(parallelDist)
+library(psych)         		#trace function tr
