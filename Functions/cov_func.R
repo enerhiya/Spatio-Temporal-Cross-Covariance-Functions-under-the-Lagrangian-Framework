@@ -1,5 +1,5 @@
 #---------STATIONARY------------#
-frozen_matern_cov <- function(theta, wind, max_time_lag = 0, q = 2, LOCS){
+frozen_matern_cov <- function(theta, wind = NULL, max_time_lag = 0, q = 2, LOCS){
 
 	###################												###################
 	################### RETURNS a q * nrow(LOCS) * (max_time_lag + 1) x q * nrow(LOCS) * (max_time_lag + 1) matrix 	###################
@@ -338,8 +338,8 @@ matern_random_cov <- function(theta, wind, wind_var, max_time_lag, q, new_locati
   
   nu <- theta[1:2]
   beta <- theta[3]
-  rho <- theta[6]
-  var <- theta[4:5]
+  rho <- theta[4]
+  var <- theta[5:6]
   if(nug_eff == T){
     nug <- theta[7:8]
   }else{
@@ -355,7 +355,7 @@ matern_random_cov <- function(theta, wind, wind_var, max_time_lag, q, new_locati
     w <- wind
     Sigma <- matrix(c(wind_var[1:2], wind_var[2:3]), ncol=2)
     loc <- coords <- new_locations
-    loc2 <- coords2 <- cbind(new_locations[,1] - kap[1], new_locations[,2] - kap[2])/1000
+    loc2 <- coords2 <- cbind(new_locations[,1] - kap[1], new_locations[,2] - kap[2])
   }
   
   SS <- list()
