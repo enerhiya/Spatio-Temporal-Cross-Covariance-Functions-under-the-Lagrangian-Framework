@@ -1,6 +1,10 @@
 #fit models
 
-directory <- '/home/salvanmo/Desktop/'
+parallel = T
+
+workstation = F
+
+if(workstation) directory <- '/home/salvanmo/Desktop/' 		else 		directory <- '/ibex/scratch/salvanmo/'
 
 root <- paste(directory, 'Spatio-Temporal-Cross-Covariance-Functions-under-the-Lagrangian-Framework/', sep = '')
 
@@ -59,56 +63,97 @@ cat('theta: ', theta, '\n')
 
 # --------------------  STEP 2: Fit space-time stationary Schlather  -------------------- #
 
-NEGLOGLIK2 <- function(p, space_params){
-			
-	wind_var_chol <- matrix(c(p[3], p[4], 0, p[5]), ncol = 2, byrow = T)
-	wind_var <- t(wind_var_chol) %*% wind_var_chol		
-	cat(p[1:2], wind_var[1,1], wind_var[2,2], wind_var[1, 2], '\n')
+if(!parallel){
 
-	Sigma <- matrix(0, ncol = n * TT * 2, nrow = n * TT * 2)
+	NEGLOGLIK2 <- function(p, space_params){
+				
+		wind_var_chol <- matrix(c(p[3], p[4], 0, p[5]), ncol = 2, byrow = T)
+		wind_var <- t(wind_var_chol) %*% wind_var_chol		
+		cat(p[1:2], wind_var[1,1], wind_var[2,2], wind_var[1, 2], '\n')
 
-	for(sim in 1:100){
-		w <- mvrnorm(1, p[1:2], wind_var)
-		Sigma_temp <- frozen_matern_cov(theta = space_params, wind = w, max_time_lag = 1, LOCS = locs_demean)
-		Sigma <- Sigma + Sigma_temp
+		Sigma <- matrix(0, ncol = n * TT * 2, nrow = n * TT * 2)
+
+		for(sim in 1:100){
+			w <- mvrnorm(1, p[1:2], wind_var)
+			Sigma_temp <- frozen_matern_cov(theta = space_params, wind = w, max_time_lag = 1, LOCS = locs_demean)
+			Sigma <- Sigma + Sigma_temp
+		}
+
+		Sigma <- Sigma / 100
+
+		cholmat <- t(cholesky(Sigma, parallel = TRUE))
+		z <- forwardsolve(cholmat, t(Z_rand_sample))
+		logsig  <- 2 * sum(log(diag(cholmat))) * nrow(Z_rand_sample)
+		out  <- 1/2 * logsig + 1/2 * sum(z^2)
+
+		return(out)
 	}
 
-	Sigma <- Sigma / 100
+	TT <- 2
+	space_params <- theta
+	Z1_rand_sample <- matrix(c(Z1[1, ], Z1[2, ]), nrow = 1)
+	Z2_rand_sample <- matrix(c(Z2[1, ], Z2[2, ]), nrow = 1)
+	Z_rand_sample <- cbind(Z1_rand_sample - mean(Z1_rand_sample), Z2_rand_sample - mean(Z2_rand_sample))
 
-	cholmat <- t(cholesky(Sigma, parallel = TRUE))
-	z <- forwardsolve(cholmat, t(Z_rand_sample))
-	logsig  <- 2 * sum(log(diag(cholmat))) * nrow(Z_rand_sample)
-	out  <- 1/2 * logsig + 1/2 * sum(z^2)
+	init <- c(0.1, 0.1, 0.1, 0, 0.1)
+	fit2 <- optim(par = init, fn = NEGLOGLIK2, space_params = theta, control = list(trace = 5, maxit = 500)) #
+	fit2 <- optim(par = fit2$par, fn = NEGLOGLIK2, space_params = theta, control = list(trace = 5, maxit = 500)) #
+	cat('w_mean: ', fit2$par[1:2], '; w_var: ', fit2$par[3:5], '\n')
 
-	return(out)
+}else{
+	NEGLOGLIK2 <- function(p, space_params){
+
+		clusterExport(cl, c("p", "space_params"), envir = environment())
+
+		output <- foreach(i=1:number_of_cores_to_use, .combine = '+', .packages = "MASS") %dopar% {
+
+			wind_var_chol <- matrix(c(p[3], p[4], 0, p[5]), ncol = 2, byrow = T)
+			wind_var <- t(wind_var_chol) %*% wind_var_chol		
+
+			S <- matrix(0, ncol = n * TT * 2, nrow = n * TT * 2)
+
+			for(sim in 1:100){
+				w <- mvrnorm(1, p[1:2], wind_var)
+				Sigma_temp <- frozen_matern_cov(theta = space_params, wind = w, max_time_lag = 1, LOCS = locs_demean)
+				S <- S + Sigma_temp
+			}
+			return(S)
+		}
+
+		Sigma <- output / (number_of_cores_to_use * 100)
+
+		cholmat <- t(cholesky(Sigma, parallel = TRUE))
+		z <- forwardsolve(cholmat, t(Z_rand_sample))
+		logsig  <- 2 * sum(log(diag(cholmat))) * nrow(Z_rand_sample)
+		out  <- 1/2 * logsig + 1/2 * sum(z^2) #+  90 * sum(abs(c(beta1, beta2)))
+
+		return(out)
+				
+	}
+
+	TT <- 2
+	space_params <- theta
+	Z1_rand_sample <- matrix(c(Z1[1, ], Z1[2, ]), nrow = 1)
+	Z2_rand_sample <- matrix(c(Z2[1, ], Z2[2, ]), nrow = 1)
+	Z_rand_sample <- cbind(Z1_rand_sample - mean(Z1_rand_sample), Z2_rand_sample - mean(Z2_rand_sample))
+
+	init <- c(0.1, 0.1, 0.1, 0, 0.1)
+
+	cores=detectCores()
+	number_of_cores_to_use = cores[1]-1 # not to overload the computer
+	cl <- makeCluster(number_of_cores_to_use) 
+	registerDoParallel(cl)
+
+	clusterExport(cl, c("root", "TT", "locs_demean", "n", "theta"), envir = environment())
+	clusterEvalQ(cl, source(paste(root, "../Functions/load_packages.R", sep = '')))
+	clusterEvalQ(cl, source(paste(root, "../Functions/cov_func.R", sep = '')))
+
+	fit2 <- optim(par = init, fn = NEGLOGLIK2, space_params = theta, control = list(trace = 5, maxit = 500)) #
+	fit2 <- optim(par = fit2$par, fn = NEGLOGLIK2, space_params = theta, control = list(trace = 5, maxit = 500)) #
+	cat('w_mean: ', fit2$par[1:2], '; w_var: ', fit2$par[3:5], '\n')
+	stopCluster(cl)
+
 }
 
-TT <- 2
-space_params <- theta
-Z1_rand_sample <- matrix(c(Z1[1, ], Z1[2, ]), nrow = 1)
-Z2_rand_sample <- matrix(c(Z2[1, ], Z2[2, ]), nrow = 1)
-Z_rand_sample <- cbind(Z1_rand_sample - mean(Z1_rand_sample), Z2_rand_sample - mean(Z2_rand_sample))
 
-init <- c(0.1, 0.1, 0.1, 0, 0.1)
-fit2 <- optim(par = init, fn = NEGLOGLIK2, space_params = theta, control = list(trace = 5, maxit = 500)) #
-fit2 <- optim(par = fit2$par, fn = NEGLOGLIK2, space_params = theta, control = list(trace = 5, maxit = 500)) #
-cat('w_mean: ', fit2$par[1:2], '; w_var: ', fit2$par[3:5], '\n')
-
-Sigma <- matrix(0, ncol = n * TT, nrow = n * TT)
-
-for(sim in 1:100){
-	cat(sim, '\n')
-	#w <- rmvn(1, rep(0, ncol(w_cov)), w_cov, ncores = 20)
-	w <- rmvn(1, rep(0, 2), cov_w, ncores = 20)
-	locs <- sim_grid_locations 
-	for(tt in 1:(TT - 1)){
-		locs <- rbind(locs, cbind(sim_grid_locations[, 1] - 0.1 * w[1:n] * tt, sim_grid_locations[, 2] - 0.1 * w[n + 1:n] * tt))
-	}	
-	dist0 <- dist(locs, diag = TRUE, upper = TRUE) %>% as.matrix()
-
-	Sigma <- Sigma + Matern(dist0, range = 0.23, nu = 1)
-
-}
-
-Sigma <- Sigma / 100
 
