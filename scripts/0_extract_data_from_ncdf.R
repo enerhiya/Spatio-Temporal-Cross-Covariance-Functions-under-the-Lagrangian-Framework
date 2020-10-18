@@ -5,16 +5,16 @@ root <- paste(directory, 'Spatio-Temporal-Cross-Covariance-Functions-under-the-L
 
 source(file = paste(root, "Functions/load_packages.R",sep=''))
 
-dname1 <- "DUCMASS25"
-dname2 <- "BCCMASS"
+dname1 <- "DUSMASS25"
+dname2 <- "BCSMASS"
 
 saudi<- map("world", "Saudi", fill = TRUE)
 IDs <- sapply(strsplit(saudi$names, ":"), function(x) x[1])
 saudi <- map2SpatialPolygons(saudi, IDs=IDs, proj4string=CRS("+proj=longlat +datum=WGS84"))
 
-for(yr in 1980:2019){
+for(yr in 1980:1980){
 
-	data_array1 <- data_array2 <- NULL
+	data_array1 <- data_array2 <- data_array3 <- NULL
 
 	if(yr < 1992){
 		merra_ind <- 100
@@ -57,7 +57,9 @@ for(yr in 1980:2019){
 		U <- u_array
 		V <- v_array
 
-		test1 <- data.frame(rep(lon.lat[,1], 24), rep(lon.lat[,2], 24),  log(c(U)),  log(c(V)))
+		test1 <- data.frame(rep(lon.lat[,1], 24), rep(lon.lat[,2], 24), c(U), c(V))
+		#test1 <- data.frame(rep(lon.lat[,1], 24), rep(lon.lat[,2], 24), (log(c(U)) - mean(log(c(U)))) / sd(log(c(U))), (log(c(V)) - mean(log(c(V)))) / sd(log(c(V))))
+
 
 		for(day in 2:mnth_end){
 			cat('READING NETCDF DATA ===> year: ', yr, 'month: ', mnth, 'day: ', day, '\n')
@@ -76,20 +78,28 @@ for(yr in 1980:2019){
 			U <- u_array
 			V <- v_array
 
-			test1 <- rbind(test1, data.frame(rep(lon.lat[,1], 24), rep(lon.lat[,2], 24),  log(c(U)),  log(c(V))))
+			test1 <- rbind(test1, data.frame(rep(lon.lat[,1], 24), rep(lon.lat[,2], 24),  c(U),  c(V)))
+			#test1 <- rbind(test1, data.frame(rep(lon.lat[,1], 24), rep(lon.lat[,2], 24), (log(c(U)) - mean(log(c(U)))) / sd(log(c(U))), (log(c(V)) - mean(log(c(V)))) / sd(log(c(V)))))
 		}
 		colnames(test1) <- c('lon', 'lat', 'Y1', 'Y2')
 		spdf <- SpatialPointsDataFrame(coords = test1[, c("lon", "lat")], data = test1, proj4string = CRS("+proj=longlat +datum=WGS84"))
 		saudi_data_orig <- data.frame(spdf[!is.na(over(spdf, as(saudi, "SpatialPolygons"))), ])
 
-		data_temp <- matrix(saudi_data_orig[, 3], ncol = 550, byrow = T)
+		data_temp <- matrix(log(saudi_data_orig[, 3]), ncol = 550, byrow = T)
+		#data_temp <- matrix(saudi_data_orig[, 3], ncol = 550, byrow = T)
 		data_array1 <- rbind(data_array1, data_temp)
 
-		data_temp <- matrix(saudi_data_orig[, 4], ncol = 550, byrow = T)
+		data_temp <- matrix(log(saudi_data_orig[, 4]), ncol = 550, byrow = T)
+		#data_temp <- matrix(saudi_data_orig[, 4], ncol = 550, byrow = T)
 		data_array2 <- rbind(data_array2, data_temp)
 
+
 	}
+
+	data_array3 <- saudi_data_orig[1:550, 1:2]
 		
-	write.table(data_array1, file = paste(root, "Data/ncdf/DUCMASS25_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
-	write.table(data_array2, file = paste(root, "Data/ncdf/BCCMASS_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
+	write.table(data_array1, file = paste(root, "Data/ncdf/DUSMASS25_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
+	write.table(data_array2, file = paste(root, "Data/ncdf/BCSMASS_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
+	write.table(data_array3, file = paste(root, "Data/ncdf/LOCS", sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
+
 }
