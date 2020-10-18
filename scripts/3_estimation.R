@@ -112,7 +112,7 @@ if(!parallel){
 
 			S <- matrix(0, ncol = n * TT * 2, nrow = n * TT * 2)
 
-			for(sim in 1:100){
+			for(sim in 1:5){
 				w <- mvrnorm(1, p[1:2], wind_var)
 				Sigma_temp <- frozen_matern_cov(theta = space_params, wind = w, max_time_lag = 1, LOCS = locs_demean)
 				S <- S + Sigma_temp
@@ -120,12 +120,12 @@ if(!parallel){
 			return(S)
 		}
 
-		Sigma <- output / (number_of_cores_to_use * 100)
+		Sigma <- output / (number_of_cores_to_use * 5)
 
 		cholmat <- t(cholesky(Sigma, parallel = TRUE))
 		z <- forwardsolve(cholmat, t(Z_rand_sample))
 		logsig  <- 2 * sum(log(diag(cholmat))) * nrow(Z_rand_sample)
-		out  <- 1/2 * logsig + 1/2 * sum(z^2) #+  90 * sum(abs(c(beta1, beta2)))
+		out  <- 1/2 * logsig + 1/2 * sum(z^2)
 
 		return(out)
 				
@@ -145,8 +145,8 @@ if(!parallel){
 	registerDoParallel(cl)
 
 	clusterExport(cl, c("root", "TT", "locs_demean", "n", "theta"), envir = environment())
-	clusterEvalQ(cl, source(paste(root, "../Functions/load_packages.R", sep = '')))
-	clusterEvalQ(cl, source(paste(root, "../Functions/cov_func.R", sep = '')))
+	clusterEvalQ(cl, source(paste(root, "/Functions/load_packages.R", sep = '')))
+	clusterEvalQ(cl, source(paste(root, "/Functions/cov_func.R", sep = '')))
 
 	fit2 <- optim(par = init, fn = NEGLOGLIK2, space_params = theta, control = list(trace = 5, maxit = 500)) #
 	fit2 <- optim(par = fit2$par, fn = NEGLOGLIK2, space_params = theta, control = list(trace = 5, maxit = 500)) #
