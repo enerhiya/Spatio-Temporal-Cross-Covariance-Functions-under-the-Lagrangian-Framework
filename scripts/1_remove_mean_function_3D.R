@@ -10,23 +10,12 @@ for(yr in 2018:2018){
 
 	cat(yr, '\n')
 
-	dat <- read.table(paste(root, 'Data/ncdf/DUSMASS25_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
+	dat <- read.table(paste(root, 'Data/ncdf/layer1_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
 
-	dat2 <- read.table(paste(root, 'Data/ncdf/BCSMASS_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
+	dat2 <- read.table(paste(root, 'Data/ncdf/layer2_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
 
-	#aggregate <- 6
-	#TT <- floor(nrow(dat) / aggregate)
-	#TT <- floor(744 / aggregate)
-
-	DAT <- dat[1:744, ]
-	DAT2 <- dat2[1:744, ]
-
-	#DAT <- DAT2 <- matrix(, nrow = TT, ncol = 550)
-
-	#for(aa in 1:TT){
-	#	DAT[aa, ] <- apply(dat[(aa - 1) * aggregate + 1:aggregate, ], 2, mean)
-	#	DAT2[aa, ] <- apply(dat2[(aa - 1) * aggregate + 1:aggregate, ], 2, mean)
-	#}
+	DAT <- dat
+	DAT2 <- dat2
 
 	Yhat1 <- res_mat1 <- DAT <- DAT - matrix(colMeans(DAT), ncol = ncol(DAT), nrow = nrow(DAT), byrow = T)
 	Yhat2 <- res_mat2 <- DAT2 <- DAT2 - matrix(colMeans(DAT2), ncol = ncol(DAT2), nrow = nrow(DAT2), byrow = T)
@@ -40,12 +29,12 @@ for(yr in 2018:2018){
 	percent_sum_squared_variation1 <- cumsum(variance.explained1)[cumsum(variance.explained1) >= 0.8]
 	min_percent_sum_squared_variation1 <- min(percent_sum_squared_variation1)
 	#num_singular_vec1 <- which(cumsum(variance.explained1) == min_percent_sum_squared_variation1) 
-	num_singular_vec1 <- 10 
+	num_singular_vec1 <- 3 
 
 	percent_sum_squared_variation2 <- cumsum(variance.explained2)[cumsum(variance.explained2) >= 0.8]
 	min_percent_sum_squared_variation2 <- min(percent_sum_squared_variation2)
 	#num_singular_vec2 <- which(cumsum(variance.explained2) == min_percent_sum_squared_variation2) 
-	num_singular_vec2 <- 10
+	num_singular_vec2 <- 3
 
 	X1 <- cbind(rep(1, nrow(obs_mat_SVD1$u)), obs_mat_SVD1$u)
 	X2 <- cbind(rep(1, nrow(obs_mat_SVD2$u)), obs_mat_SVD2$u)
@@ -70,13 +59,13 @@ for(yr in 2018:2018){
 
 	}
 	
-	res_mat1 <- DAT
-	res_mat2 <- DAT2
+	#res_mat1 <- DAT
+	#res_mat2 <- DAT2
 
-	write.table(res_mat1, file = paste(root, "Data/ncdf/DUSMASS25_residuals_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
-	write.table(res_mat2, file = paste(root, "Data/ncdf/BCSMASS_residuals_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
+	write.table(res_mat1, file = paste(root, "Data/ncdf/layer1_residuals_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
+	write.table(res_mat2, file = paste(root, "Data/ncdf/layer2_residuals_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
 
-	write.table(Yhat1, file = paste(root, "Results/estimated_mean/DUSMASS25_trend_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
-	write.table(Yhat2, file = paste(root, "Results/estimated_mean/BCSMASS_trend_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
+	write.table(Yhat1, file = paste(root, "Results/estimated_mean/layer1_trend_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
+	write.table(Yhat2, file = paste(root, "Results/estimated_mean/layer2_trend_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
 
 }

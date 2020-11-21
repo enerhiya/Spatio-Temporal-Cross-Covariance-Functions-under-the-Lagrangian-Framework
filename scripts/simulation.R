@@ -90,11 +90,11 @@ if(load_default_data){
 
 	#-------------------------------     SIMULATE UNIVARIATE FROM NONFROZEN VELOCITY FIELD MODEL     -------------------------------# 
 
-	w_cov <- frozen_matern_cov(theta = c(1, 1, 1, 1, 1, 0.8), max_time_lag = 0, LOCS = sim_grid_locations)
+	w_cov <- frozen_matern_cov(theta = c(0.1, 0.1, 0.03, 0.5, 1, 0.8), max_time_lag = 0, LOCS = sim_grid_locations)
 
 	#~~~~~~~~~~~~~~~~~~~~~~~~~~     SIMULATE SAMPLE REALIZATIONS FOR THE VELOCITY FIELD     ~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-	set.seed(1234)
+	set.seed(1235)
 	w <- rmvn(1, rep(0, ncol(w_cov)), w_cov, ncores = 20)
 
 	jpeg(file = paste(root, 'Figures/velocity_field.jpg', sep = ''), width = 1000, height = 1000)
@@ -136,10 +136,11 @@ if(load_default_data){
 
 	r1 <- rmvn(1, rep(0, n * TT), Sigma, ncores = 20)
 
-	jpeg(file = paste(root, 'Figures/raw.jpg', sep = ''), width = 1800, height = 900)
+	jpeg(file = paste(root, 'Figures/sim_uni.jpg', sep = ''), width = 1800, height = 700)
 	par(mfrow = c(1,3))
 	for(tt in 1:3){
-		image.plot(matrix(r1[(tt - 1) * n + 1:n], N, N))
+		par(pty = 's')
+		quilt.plot(sim_grid_locations[, 1], sim_grid_locations[, 2], r1[1, (tt - 1) * n + 1:n], nx = 25, ny = 25, ylab = '', xlab = '', xaxt = 'n', yaxt = 'n', cex.lab = 4, add.legend = F, cex.axis = 2)
 	}
 	dev.off()
 

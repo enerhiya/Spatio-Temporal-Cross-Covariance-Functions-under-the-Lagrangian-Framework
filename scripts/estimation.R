@@ -90,14 +90,22 @@ if(load_default_data){
 	
 		R11 <- Sigma[1:(n * q * (cut_off_t - 1)), 1:(n * q * (cut_off_t - 1))]
 		R12 <- Sigma[(n * q * (cut_off_t - 1)) + 1:(n * q), 1:(n * q * (cut_off_t - 1))]
-		#R12 <- Sigma[1:(n * q * (cut_off_t - 1)), (n * q * (cut_off_t - 1)) + 1:(n * q)]
 		R22 <- Sigma[(n * q * (cut_off_t - 1)) + 1:(n * q), (n * q * (cut_off_t - 1)) + 1:(n * q)]
 
 		Z_full <-  matrix(Z_rand_sample[1:(n * q * cut_off_t)] - mean(Z_rand_sample[1:(n * q * cut_off_t)]), ncol = 1)
 
-		Sigma.inv <- solve(Sigma)
-                det.Sigma <- determinant(Sigma,log=T)$mod[1]
-                out <- 0.5 * det.Sigma + 0.5 * t(Z_full) %*% Sigma.inv %*% Z_full
+    		cholmat <- tryCatch(t(chol(Sigma)) , error = function(a) numeric(0) )
+	    	if( length(cholmat) == 0 ){
+			# sometimes the covmat is not numerically positive definite.
+			# we probably need a better solution for this.
+			return(9999999)
+			print("One of the Choleskys failed")
+	    	}
+
+    		z       <- forwardsolve(cholmat, Z_full)
+
+		logsig  <- 2 * sum(log(diag(cholmat)))
+                out  <- length(z)/2 * log(2 * pi) + 1/2 * logsig + 1/2 * sum(z^2)
 
 		for(tt in 1:(t - cut_off_t)){
 			Z_cond <-  matrix(Z_rand_sample[n * (tt - 1) + 1:(n * q * (cut_off_t - 1))] - mean(Z_rand_sample[n * (tt - 1) + 1:(n * q * (cut_off_t - 1))]), ncol = 1)
@@ -113,7 +121,7 @@ if(load_default_data){
     			if( length(cholmat) == 0 ){
         			# sometimes the covmat is not numerically positive definite.
         			# we probably need a better solution for this.
-        			return(-9999999)
+        			return(9999999)
         			print("One of the Choleskys failed")
     			}
 

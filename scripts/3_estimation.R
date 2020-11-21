@@ -157,3 +157,26 @@ if(!parallel){
 
 
 
+	NEGLOGLIK2 <- function(p, space_params){
+
+		clusterExport(cl, c("p", "space_params"), envir = environment())
+
+		wind_var_chol <- matrix(c(p[3], p[4], 0, p[5]), ncol = 2, byrow = T)
+		wind_var <- t(wind_var_chol) %*% wind_var_chol		
+
+		S <- matrix(0, ncol = n * TT * 2, nrow = n * TT * 2)
+
+		w <- mvrnorm(100, p[1:2], wind_var)
+		Sigma_temp <- parApply(w, 1, frozen_matern_cov_parapply, cl = cl)
+
+		Sigma <- output / (number_of_cores_to_use * 5)
+
+		cholmat <- t(cholesky(Sigma, parallel = TRUE))
+		z <- forwardsolve(cholmat, t(Z_rand_sample))
+		logsig  <- 2 * sum(log(diag(cholmat))) * nrow(Z_rand_sample)
+		out  <- 1/2 * logsig + 1/2 * sum(z^2)
+
+		return(out)
+				
+	}
+
