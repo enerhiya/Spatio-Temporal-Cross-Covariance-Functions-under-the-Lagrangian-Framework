@@ -171,8 +171,7 @@ for(start_hr in 1:1){
 
 	dat3 <- read.table(paste(root, 'Data/ncdf/LOCS-3D-dataset', sep = ''), header = FALSE, sep = " ") %>% as.matrix()
 
-	zlim_range1 <- range(dat[start_hr:(start_hr + 4),])
-	zlim_range2 <- range(dat2[start_hr:(start_hr + 4),])
+	zlim_range1 <- zlim_range2 <- c(-0.3, 0.3)
 
 	split.screen( rbind(c(0.08,0.95,0.1,0.95), c(0.95,0.99,0.1,0.95)))
 	split.screen( figs = c( 2, 5 ), screen = 1 )
@@ -226,12 +225,8 @@ for(start_hr in 1:1){
 	}
 	screen(2)
 	x1 <- c(0.025,0.12,0.12,0.025) + 0.1
-	y1 <- c(0.05,0.05,0.35,0.35)
-	legend.gradient2(cbind(x1,y1), title = "", limits = round(seq(zlim_range2[1], zlim_range2[2], length.out = 5), 1), cex = 2)
-
-	x1 <- c(0.025,0.12,0.12,0.025) + 0.1
-	y1 <- c(0.6,0.6,0.9,0.9)
-	legend.gradient2(cbind(x1,y1), title = "", limits = round(seq(zlim_range1[1], zlim_range1[2], length.out = 5), 1), cex = 2)
+	y1 <- c(0.15,0.15,0.8,0.8)
+	legend.gradient2(cbind(x1,y1), title = "", limits = round(seq(zlim_range2[1], zlim_range2[2], length.out = 5), 1), CEX = 2)
 
 	close.screen( all=TRUE)
 
@@ -252,8 +247,8 @@ for(start_hr in 1:1){
 
 	dat3 <- read.table(paste(root, 'Data/ncdf/LOCS-3D-dataset', sep = ''), header = FALSE, sep = " ") %>% as.matrix()
 
-	zlim_range1 <- range(Yhat1[start_hr:(start_hr + 4), ])
-	zlim_range2 <- range(Yhat2[start_hr:(start_hr + 4), ])
+	zlim_range1 <- zlim_range2 <- c(-0.4, 0.4)
+	#zlim_range2 <- range(Yhat2[start_hr:(start_hr + 4), ])
 
 	split.screen( rbind(c(0.08,0.95,0.1,0.95), c(0.95,0.99,0.1,0.95)))
 	split.screen( figs = c( 2, 5 ), screen = 1 )
@@ -307,12 +302,8 @@ for(start_hr in 1:1){
 	}
 	screen(2)
 	x1 <- c(0.025,0.12,0.12,0.025) + 0.1
-	y1 <- c(0.05,0.05,0.35,0.35)
-	legend.gradient2(cbind(x1,y1), title = "", limits = round(seq(zlim_range2[1], zlim_range2[2], length.out = 5), 1), cex = 2)
-
-	x1 <- c(0.025,0.12,0.12,0.025) + 0.1
-	y1 <- c(0.6,0.6,0.9,0.9)
-	legend.gradient2(cbind(x1,y1), title = "", limits = round(seq(zlim_range1[1], zlim_range1[2], length.out = 5), 1), cex = 2)
+	y1 <- c(0.15,0.15,0.8,0.8)
+	legend.gradient2(cbind(x1,y1), title = "", limits = round(seq(zlim_range2[1], zlim_range2[2], length.out = 5), 1), CEX = 2)
 
 	close.screen( all=TRUE)
 
