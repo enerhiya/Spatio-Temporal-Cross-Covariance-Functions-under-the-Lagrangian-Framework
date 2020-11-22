@@ -179,13 +179,13 @@ for(start_hr in 1:1){
 	hr_count <- 0
 	for(hr in hr_index){
 		
-		if(mod(hr - 1, 3) == 0){
+		if(mod(hr - 1, 8) == 0){
 			hr_label <- 0
 		}else{
 			hr_label <- hr_label + 1
 		}
 
-		if(mod(hr - 1, 3) == 0){
+		if(mod(hr - 1, 8) == 0){
 			day_count <- day_count + 1
 		}
 
@@ -217,7 +217,7 @@ for(start_hr in 1:1){
 			}
 
 			if(variable == 1){
-				mtext(paste('January ', day_label, ', ', hr_label * 8, ':00', sep = ''), side = 3, line = 1, adj = 0.5, cex = 3, font = 2)
+				mtext(paste('January ', day_label, ', ', hr_label * 3, ':00', sep = ''), side = 3, line = 1, adj = 0.5, cex = 3, font = 2)
 			}else{
 				mtext('Longitude', side = 1, line = 4, adj = 0.5,  cex = 2.5, font = 2)
 			}
@@ -256,13 +256,13 @@ for(start_hr in 1:1){
 	hr_count <- 0
 	for(hr in hr_index){
 		
-		if(mod(hr - 1, 3) == 0){
+		if(mod(hr - 1, 8) == 0){
 			hr_label <- 0
 		}else{
 			hr_label <- hr_label + 1
 		}
 
-		if(mod(hr - 1, 3) == 0){
+		if(mod(hr - 1, 8) == 0){
 			day_count <- day_count + 1
 		}
 
@@ -294,7 +294,7 @@ for(start_hr in 1:1){
 			}
 
 			if(variable == 1){
-				mtext(paste('January ', day_label, ', ', hr_label * 8, ':00', sep = ''), side = 3, line = 1, adj = 0.5, cex = 3, font = 2)
+				mtext(paste('January ', day_label, ', ', hr_label * 3, ':00', sep = ''), side = 3, line = 1, adj = 0.5, cex = 3, font = 2)
 			}else{
 				mtext('Longitude', side = 1, line = 4, adj = 0.5,  cex = 2.5, font = 2)
 			}
