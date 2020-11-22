@@ -310,3 +310,10 @@ for(start_hr in 1:1){
 }
 
 dev.off()
+
+write.table(res_mat1, file = paste(root, "Data/ncdf/layer1_residuals_aggregate", sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
+write.table(res_mat2, file = paste(root, "Data/ncdf/layer2_residuals_aggregate", sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
+
+write.table(Yhat1, file = paste(root, "Results/estimated_mean/layer1_trend_aggregate", sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
+write.table(Yhat2, file = paste(root, "Results/estimated_mean/layer2_trend_aggregate", sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
+
