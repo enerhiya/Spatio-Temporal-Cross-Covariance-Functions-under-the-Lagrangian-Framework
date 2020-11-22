@@ -24,3 +24,7 @@ library(mixtools)
 library(mvnfast)
 library(parallelDist)
 library(psych)         		#trace function tr
+library(ncdf4)
+library(Rfast)
+library(imputeTS)
+library(pracma)
