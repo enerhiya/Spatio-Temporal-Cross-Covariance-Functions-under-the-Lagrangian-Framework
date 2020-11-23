@@ -2,6 +2,8 @@ download link:
 
 pm2.5: https://disc.gsfc.nasa.gov/datasets/M2T1NXAER_5.12.4/summary
 wind: https://disc.gsfc.nasa.gov/datasets/M2I1NXASM_5.12.4/summary
+pm2.5 3D: https://disc.gsfc.nasa.gov/datasets/M2I3NVAER_5.12.4/summary
+wind 3D: https://disc.gsfc.nasa.gov/datasets/M2I3NPASM_5.12.4/summary
 
 subregion for saudi land and ocean region
 

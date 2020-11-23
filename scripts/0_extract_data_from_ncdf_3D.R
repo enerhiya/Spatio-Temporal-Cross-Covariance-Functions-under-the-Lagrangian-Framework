@@ -5,7 +5,7 @@ root <- paste(directory, 'Spatio-Temporal-Cross-Covariance-Functions-under-the-L
 
 source(file = paste(root, "Functions/load_packages.R",sep=''))
 
-dname1 <- "BCPHOBIC"
+dname1 <- "BCPHILIC"
 
 saudi<- map("world", "Saudi", fill = TRUE)
 IDs <- sapply(strsplit(saudi$names, ":"), function(x) x[1])
@@ -57,10 +57,21 @@ for(yr in 1980:2019){
 
 		nc_close(ncin)
 
+		u_array[which(u_array == 0)] = NA
+		v_array[which(v_array == 0)] = NA
+
 		U <- u_array
 		V <- v_array
 
-		test1 <- data.frame(rep(lon.lat[,1], 8), rep(lon.lat[,2], 8),  log(c(U)) - mean(log(c(U))),  log(c(V)) - mean(log(c(V))))
+		for(aa in 1:dim(u_array)[3]){
+			U[,, aa] <- na_ma(u_array[,, aa], k = 10)
+			V[,, aa] <- na_ma(v_array[,, aa], k = 10)
+		}
+
+		#U <- u_array - array(apply(u_array, c(1:2), mean), dim = dim(u_array))
+		#V <- v_array - array(apply(v_array, c(1:2), mean), dim = dim(v_array))
+
+		test1 <- data.frame(rep(lon.lat[,1], 8), rep(lon.lat[,2], 8),  log(c(U)),  log(c(V)))
 
 		for(day in 2:mnth_end){
 			cat('READING NETCDF DATA ===> year: ', yr, 'month: ', mnth, 'day: ', day, '\n')
@@ -77,10 +88,21 @@ for(yr in 1980:2019){
 
 			nc_close(ncin)
 
+			u_array[which(u_array == 0)] = NA
+			v_array[which(v_array == 0)] = NA
+
 			U <- u_array
 			V <- v_array
 
-			test1 <- rbind(test1, data.frame(rep(lon.lat[,1], 8), rep(lon.lat[,2], 8),  log(c(U)) - mean(log(c(U))),  log(c(V)) - mean(log(c(V)))))
+			for(aa in 1:dim(u_array)[3]){
+				U[,, aa] <- na_ma(u_array[,, aa], k = 10)
+				V[,, aa] <- na_ma(v_array[,, aa], k = 10)
+			}
+
+			#U <- u_array - array(apply(u_array, c(1:2), mean), dim = dim(u_array))
+			#V <- v_array - array(apply(v_array, c(1:2), mean), dim = dim(v_array))
+
+			test1 <- rbind(test1, data.frame(rep(lon.lat[,1], 8), rep(lon.lat[,2], 8),  log(c(U)),  log(c(V))))
 		}
 		colnames(test1) <- c('lon', 'lat', 'Y1', 'Y2')
 		spdf <- SpatialPointsDataFrame(coords = test1[, c("lon", "lat")], data = test1, proj4string = CRS("+proj=longlat +datum=WGS84"))
@@ -89,11 +111,9 @@ for(yr in 1980:2019){
 		N <- nrow(saudi_data_orig)/(8 * mnth_end)
 
 		data_temp <- matrix(saudi_data_orig[, 3], ncol = N, byrow = T)
-		data_temp[is.infinite(data_temp)] <- min(data_temp[!is.infinite(data_temp)])
 		data_array1 <- rbind(data_array1, data_temp)
 
 		data_temp <- matrix(saudi_data_orig[, 4], ncol = N, byrow = T)
-		data_temp[is.infinite(data_temp)] <- min(data_temp[!is.infinite(data_temp)])
 		data_array2 <- rbind(data_array2, data_temp)
 	}
 

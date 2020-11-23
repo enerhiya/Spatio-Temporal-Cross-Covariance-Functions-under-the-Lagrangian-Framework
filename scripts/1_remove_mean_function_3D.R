@@ -6,7 +6,7 @@ root <- paste(directory, 'Spatio-Temporal-Cross-Covariance-Functions-under-the-L
 
 source(file = paste(root, "Functions/load_packages.R",sep=''))
 
-for(yr in 2018:2018){
+for(yr in 1980:2019){
 
 	cat(yr, '\n')
 
@@ -26,15 +26,15 @@ for(yr in 2018:2018){
 	variance.explained1 = prop.table(obs_mat_SVD1$d^2)
 	variance.explained2 = prop.table(obs_mat_SVD2$d^2)
 
-	percent_sum_squared_variation1 <- cumsum(variance.explained1)[cumsum(variance.explained1) >= 0.8]
+	percent_sum_squared_variation1 <- cumsum(variance.explained1)[cumsum(variance.explained1) >= 0.85]
 	min_percent_sum_squared_variation1 <- min(percent_sum_squared_variation1)
-	#num_singular_vec1 <- which(cumsum(variance.explained1) == min_percent_sum_squared_variation1) 
-	num_singular_vec1 <- 3 
+	num_singular_vec1 <- which(cumsum(variance.explained1) == min_percent_sum_squared_variation1) 
+	#num_singular_vec1 <- 7 
 
-	percent_sum_squared_variation2 <- cumsum(variance.explained2)[cumsum(variance.explained2) >= 0.8]
+	percent_sum_squared_variation2 <- cumsum(variance.explained2)[cumsum(variance.explained2) >= 0.85]
 	min_percent_sum_squared_variation2 <- min(percent_sum_squared_variation2)
-	#num_singular_vec2 <- which(cumsum(variance.explained2) == min_percent_sum_squared_variation2) 
-	num_singular_vec2 <- 3
+	num_singular_vec2 <- which(cumsum(variance.explained2) == min_percent_sum_squared_variation2) 
+	#num_singular_vec2 <- 7
 
 	X1 <- cbind(rep(1, nrow(obs_mat_SVD1$u)), obs_mat_SVD1$u)
 	X2 <- cbind(rep(1, nrow(obs_mat_SVD2$u)), obs_mat_SVD2$u)

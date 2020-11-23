@@ -75,7 +75,6 @@ for(nn in 1:ncol(DAT)){
 dat <- res_mat1	
 dat2 <- res_mat2	
 
-
 pdf(file = paste(root, 'Figures/spacetime-maps-residuals-supplementary.pdf', sep = ''), width = 25, height = 10)
 
 day_count <- 0
@@ -171,7 +170,9 @@ for(start_hr in 1:1){
 
 	dat3 <- read.table(paste(root, 'Data/ncdf/LOCS-3D-dataset', sep = ''), header = FALSE, sep = " ") %>% as.matrix()
 
-	zlim_range1 <- zlim_range2 <- c(-0.3, 0.3)
+	#zlim_range1 <- zlim_range2 <- c(-0.3, 0.3)
+	zlim_range1 <- range(dat[start_hr:(start_hr + 4), ])
+	zlim_range2 <- range(dat2[start_hr:(start_hr + 4), ])
 
 	split.screen( rbind(c(0.08,0.95,0.1,0.95), c(0.95,0.99,0.1,0.95)))
 	split.screen( figs = c( 2, 5 ), screen = 1 )
@@ -247,8 +248,9 @@ for(start_hr in 1:1){
 
 	dat3 <- read.table(paste(root, 'Data/ncdf/LOCS-3D-dataset', sep = ''), header = FALSE, sep = " ") %>% as.matrix()
 
-	zlim_range1 <- zlim_range2 <- c(-0.4, 0.4)
-	#zlim_range2 <- range(Yhat2[start_hr:(start_hr + 4), ])
+	#zlim_range1 <- zlim_range2 <- c(-0.4, 0.4)
+	zlim_range1 <- range(Yhat1[start_hr:(start_hr + 4), ])
+	zlim_range2 <- range(Yhat2[start_hr:(start_hr + 4), ])
 
 	split.screen( rbind(c(0.08,0.95,0.1,0.95), c(0.95,0.99,0.1,0.95)))
 	split.screen( figs = c( 2, 5 ), screen = 1 )

@@ -180,22 +180,29 @@ ulag <- rep(0, nrow(lag_targ))
 lag_targ <- matrix(c(c(0.625, 0), c(0, 0.5), c(0.625, 0.5)), ncol = 2, byrow = T)
 ulag <- rep(1, nrow(lag_targ))
 
-dat <- read.table(paste(root, 'Data/ncdf/layer1_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
-dat2 <- read.table(paste(root, 'Data/ncdf/layer2_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
-dat3 <- read.table(paste(root, 'Data/ncdf/LOCS-3D-dataset', sep = ''), header = FALSE, sep = " ") %>% as.matrix()
+PVALS <- matrix(, ncol = 2, nrow = 40)
+for(yr in 1980:2019){
+	cat(yr, '\n')
+	dat <- read.table(paste(root, 'Data/ncdf/layer1_residuals_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
+	dat2 <- read.table(paste(root, 'Data/ncdf/layer2_residuals_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
+	dat3 <- read.table(paste(root, 'Data/ncdf/LOCS-3D-dataset', sep = ''), header = FALSE, sep = " ") %>% as.matrix()
 
-Z <- dat
-Z2 <- dat2
+	Z <- dat
+	Z2 <- dat2
 
-for(zz in 1:nrow(Z)){
-	Z[zz, ] <- Z[zz, ] - mean(Z[zz, ])
-	Z2[zz, ] <- Z2[zz, ] - mean(Z2[zz, ])
+	for(zz in 1:nrow(Z)){
+		Z[zz, ] <- Z[zz, ] - mean(Z[zz, ])
+		Z2[zz, ] <- Z2[zz, ] - mean(Z2[zz, ])
+	}
+
+	splag <- compute_splag(dat3)
+
+	pvalues1 <- stationary.test(Z, splag, ulag)
+	pvalues2 <- stationary.test(Z2, splag, ulag)
+
+	PVALS[yr - 1979, 1] <- pvalues1
+	PVALS[yr - 1979, 2] <- pvalues2
 }
-
-splag <- compute_splag(dat3)
-
-pvalues1 <- stationary.test(Z, splag, ulag)
-pvalues2 <- stationary.test(Z2, splag, ulag)
 
 ind1 <- which(dat3[, 1] <= 44)
 
