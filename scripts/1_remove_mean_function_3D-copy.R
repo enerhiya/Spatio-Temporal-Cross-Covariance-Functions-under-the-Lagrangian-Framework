@@ -12,8 +12,18 @@ for(yr in 1980:2019){
 
 	#dat <- read.table(paste(root, 'Data/ncdf/layer1_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
 	#dat2 <- read.table(paste(root, 'Data/ncdf/layer2_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
-	dat <- read.table(paste(root, 'Data/ncdf/TEST-layer1_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
-	dat2 <- read.table(paste(root, 'Data/ncdf/TEST-layer2_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
+	dat_temp <- read.table(paste(root, 'Data/ncdf/TEST-layer1_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
+	dat2_temp <- read.table(paste(root, 'Data/ncdf/TEST-layer2_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
+
+	dat_temp[which(dat_temp < -25)] <- -25
+	dat2_temp[which(dat2_temp < -25)] <- -25
+
+	dat <- dat2 <- matrix(, ncol = 550, nrow = 31)
+
+	for(aa in 1:31){
+		dat[aa, ] <- colMeans(dat_temp[(aa - 1) * 8 + 1:8, ])
+		dat2[aa, ] <- colMeans(dat2_temp[(aa - 1) * 8 + 1:8, ])
+	}
 
 	DAT <- dat
 	DAT2 <- dat2
@@ -30,12 +40,12 @@ for(yr in 1980:2019){
 	percent_sum_squared_variation1 <- cumsum(variance.explained1)[cumsum(variance.explained1) >= 0.85]
 	min_percent_sum_squared_variation1 <- min(percent_sum_squared_variation1)
 	num_singular_vec1 <- which(cumsum(variance.explained1) == min_percent_sum_squared_variation1) 
-	#num_singular_vec1 <- 2 
+	num_singular_vec1 <- 2 
 
 	percent_sum_squared_variation2 <- cumsum(variance.explained2)[cumsum(variance.explained2) >= 0.85]
 	min_percent_sum_squared_variation2 <- min(percent_sum_squared_variation2)
 	num_singular_vec2 <- which(cumsum(variance.explained2) == min_percent_sum_squared_variation2) 
-	#num_singular_vec2 <- 2
+	num_singular_vec2 <- 2
 
 	X1 <- cbind(rep(1, nrow(obs_mat_SVD1$u)), obs_mat_SVD1$u)
 	X2 <- cbind(rep(1, nrow(obs_mat_SVD2$u)), obs_mat_SVD2$u)
