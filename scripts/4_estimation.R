@@ -13,9 +13,9 @@ source(file = paste(root, "Functions/auxiliary_functions.R", sep = ''))
 source(file = paste(root, "Functions/cov_func.R", sep = ''))
 source(file = paste(root, "Functions/plot_func.R", sep = ''))
 
-Z1 <- read.table(paste(root, 'Data/ncdf/DUSMASS25_residuals_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
-Z2 <- read.table(paste(root, 'Data/ncdf/BCSMASS_residuals_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
-locs <- LOCS <- read.table(paste(root, 'Data/ncdf/LOCS', sep = ''), header = FALSE, sep = " ") %>% as.matrix()
+Z1 <- read.table(paste(root, 'Data/ncdf/layer1_residuals_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
+Z2 <- read.table(paste(root, 'Data/ncdf/layer2_residuals_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
+locs <- LOCS <- read.table(paste(root, 'Data/ncdf/LOCS-3D-dataset', sep = ''), header = FALSE, sep = " ") %>% as.matrix()
 
 locs_cartesian <- cbind(6371 * cos(locs[, 2] / 180.0 * pi) * cos(locs[, 1] / 180.0 * pi), 6371 * cos(locs[, 2] / 180.0 * pi) * sin(locs[, 1] / 180.0 * pi))
 locs_demean <- cbind(locs_cartesian[, 1] - mean(locs_cartesian[, 1]), locs_cartesian[, 2] - mean(locs_cartesian[, 2]))
