@@ -10,10 +10,8 @@ for(yr in 1980:2019){
 
 	cat(yr, '\n')
 
-	#dat <- read.table(paste(root, 'Data/ncdf/layer1_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
-	#dat2 <- read.table(paste(root, 'Data/ncdf/layer2_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
-	dat_temp <- read.table(paste(root, 'Data/ncdf/TEST-layer1_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
-	dat2_temp <- read.table(paste(root, 'Data/ncdf/TEST-layer2_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
+	dat_temp <- read.table(paste(root, 'Data/ncdf/layer1_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
+	dat2_temp <- read.table(paste(root, 'Data/ncdf/layer2_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
 
 	dat_temp[which(dat_temp < -25)] <- -25
 	dat2_temp[which(dat2_temp < -25)] <- -25
@@ -69,11 +67,8 @@ for(yr in 1980:2019){
 		res_mat2[, nn] <- err
 
 	}
-	
-	write.table(res_mat1, file = paste(root, "Data/ncdf/TEST-layer1_residuals_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
-	write.table(res_mat2, file = paste(root, "Data/ncdf/TEST-layer2_residuals_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
-	#write.table(res_mat1, file = paste(root, "Data/ncdf/layer1_residuals_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
-	#write.table(res_mat2, file = paste(root, "Data/ncdf/layer2_residuals_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
+	write.table(res_mat1, file = paste(root, "Data/ncdf/layer1_residuals_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
+	write.table(res_mat2, file = paste(root, "Data/ncdf/layer2_residuals_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
 
 	write.table(Yhat1, file = paste(root, "Results/estimated_mean/layer1_trend_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
 	write.table(Yhat2, file = paste(root, "Results/estimated_mean/layer2_trend_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)

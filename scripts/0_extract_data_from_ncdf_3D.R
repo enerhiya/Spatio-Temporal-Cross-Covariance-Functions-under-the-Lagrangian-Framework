@@ -57,19 +57,11 @@ for(yr in 1980:2019){
 
 		nc_close(ncin)
 
-		u_array[which(u_array == 0)] = NA
-		v_array[which(v_array == 0)] = NA
+		u_array[which(u_array == 0)] = min(u_array[which(u_array != 0)])
+		v_array[which(v_array == 0)] = min(v_array[which(v_array != 0)])
 
 		U <- u_array
 		V <- v_array
-
-		for(aa in 1:dim(u_array)[3]){
-			U[,, aa] <- na_ma(u_array[,, aa], k = 10)
-			V[,, aa] <- na_ma(v_array[,, aa], k = 10)
-		}
-
-		#U <- u_array - array(apply(u_array, c(1:2), mean), dim = dim(u_array))
-		#V <- v_array - array(apply(v_array, c(1:2), mean), dim = dim(v_array))
 
 		test1 <- data.frame(rep(lon.lat[,1], 8), rep(lon.lat[,2], 8),  log(c(U)),  log(c(V)))
 
@@ -88,22 +80,15 @@ for(yr in 1980:2019){
 
 			nc_close(ncin)
 
-			u_array[which(u_array == 0)] = NA
-			v_array[which(v_array == 0)] = NA
+			u_array[which(u_array == 0)] = min(u_array[which(u_array != 0)])
+			v_array[which(v_array == 0)] = min(v_array[which(v_array != 0)])
 
 			U <- u_array
 			V <- v_array
 
-			for(aa in 1:dim(u_array)[3]){
-				U[,, aa] <- na_ma(u_array[,, aa], k = 10)
-				V[,, aa] <- na_ma(v_array[,, aa], k = 10)
-			}
-
-			#U <- u_array - array(apply(u_array, c(1:2), mean), dim = dim(u_array))
-			#V <- v_array - array(apply(v_array, c(1:2), mean), dim = dim(v_array))
-
 			test1 <- rbind(test1, data.frame(rep(lon.lat[,1], 8), rep(lon.lat[,2], 8),  log(c(U)),  log(c(V))))
 		}
+
 		colnames(test1) <- c('lon', 'lat', 'Y1', 'Y2')
 		spdf <- SpatialPointsDataFrame(coords = test1[, c("lon", "lat")], data = test1, proj4string = CRS("+proj=longlat +datum=WGS84"))
 		saudi_data_orig <- data.frame(spdf[!is.na(over(spdf, as(saudi, "SpatialPolygons"))), ])

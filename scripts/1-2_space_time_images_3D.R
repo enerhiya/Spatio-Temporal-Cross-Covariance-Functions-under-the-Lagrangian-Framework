@@ -12,10 +12,6 @@ yr <- 2015 #2010, 2016 is good
 #dat2 <- read.table(paste(root, 'Data/ncdf/layer2_residuals_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
 #dat <- read.table(paste(root, 'Data/ncdf/layer1_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
 #dat2 <- read.table(paste(root, 'Data/ncdf/layer2_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
-#dat <- read.table(paste(root, 'Data/ncdf/TEST-layer1_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
-#dat2 <- read.table(paste(root, 'Data/ncdf/TEST-layer2_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
-dat <- read.table(paste(root, 'Data/ncdf/TEST-layer1_residuals_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
-dat2 <- read.table(paste(root, 'Data/ncdf/TEST-layer2_residuals_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
 dat3 <- read.table(paste(root, 'Data/ncdf/LOCS-3D-dataset', sep = ''), header = FALSE, sep = " ") %>% as.matrix()
 
 Yhat1 <- read.table(paste(root, "Results/estimated_mean/layer1_trend_", yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()

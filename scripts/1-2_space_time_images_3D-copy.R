@@ -6,12 +6,10 @@ root <- paste(directory, 'Spatio-Temporal-Cross-Covariance-Functions-under-the-L
 source(file = paste(root, "Functions/load_packages.R",sep=''))
 source(file = paste(root, "Functions/auxiliary_functions.R",sep=''))
 
-yr <- 2015 #2010, 2016 is good
+yr <- 2016 #2010, 2016 is good
 
-#dat_temp <- read.table(paste(root, 'Data/ncdf/TEST-layer1_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
-#dat2_temp <- read.table(paste(root, 'Data/ncdf/TEST-layer2_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
-dat <- read.table(paste(root, 'Data/ncdf/TEST-layer1_residuals_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
-dat2 <- read.table(paste(root, 'Data/ncdf/TEST-layer2_residuals_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
+dat <- read.table(paste(root, 'Data/ncdf/layer1_residuals_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
+dat2 <- read.table(paste(root, 'Data/ncdf/layer2_residuals_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
 dat3 <- read.table(paste(root, 'Data/ncdf/LOCS-3D-dataset', sep = ''), header = FALSE, sep = " ") %>% as.matrix()
 
 pdf(file = paste(root, 'Figures/spacetime-maps-residuals-manuscript-NEW.pdf', sep = ''), width = 25, height = 10)
@@ -87,21 +85,5 @@ for(start_hr in seq(1, 5, by = 5)){
 }
 
 dev.off()
-
-
-#################################################################################################
-
-#dat_temp <- read.table(paste(root, 'Data/ncdf/TEST-layer1_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
-#dat2_temp <- read.table(paste(root, 'Data/ncdf/TEST-layer2_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
-
-#pdf(file = paste(root, 'Figures/application-cleaning-data.pdf', sep = ''), width = 25, height = 10)
-
-#par(mfrow = c(1, 2))
-#plot(dat_temp[, 2], type = 'l')
-#plot(dat2_temp[, 2], type = 'l')
-
-#dev.off()
-
-
 
 
