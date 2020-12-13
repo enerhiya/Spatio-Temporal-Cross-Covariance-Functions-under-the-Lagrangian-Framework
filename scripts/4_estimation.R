@@ -19,7 +19,7 @@ std_locs <- cbind((locs_cartesian[, 1] - mean(locs_cartesian[, 1])) / sd(locs_ca
 n <- nrow(locs)
 
 sim_grid_locations <- locs_demean
-TT <- 2
+TT <- 3
 
 ############# CHANGE DIRECTORY #############
 
@@ -65,15 +65,21 @@ NEGLOGLIK_ST <- function(p){
 
 init <- c(0, 0, log(100), 0, 0, 0, 0.001, 0.001, 1, 0, 1)
 
-r1 <- c(Z1[1, ], Z1[2, ], Z2[1, ], Z2[2, ])
+r1 <- c(Z1[1, ], Z1[2, ], Z1[3, ], Z2[1, ], Z2[2, ], Z2[3, ])
 
 Z_rand_sample <- matrix( r1 - mean(r1), nrow = 1)
 
 fit1 <- optim(par = init, fn = NEGLOGLIK_ST, control = list(trace = 5, maxit = 500)) #
 
 for(tt in 1:5){
-	cat('SAMPLE: ', samps, '\n')
-
 	fit1 <- optim(par = fit1$par, fn = NEGLOGLIK_ST, control = list(trace = 5, maxit = 500)) #
 }
 
+p <- fit1$par
+theta <- c(exp(p[1:5]), p[6])
+mu <- p[7:8]
+wind_var_chol <- matrix(c(p[9], p[10], 0, p[11]), ncol = 2, byrow = T)
+wind_var <- t(wind_var_chol) %*% wind_var_chol
+
+#raw params: -1.2511348 -1.8163147  4.9434041  0.3562039  0.3421842  0.1720987 -0.9255224  5.0388504  2.0005501  2.8191134  2.4391513
+#transformed params: 0.2861799   0.1626240 140.2468528   1.4278986   1.4080196   0.1720987 -0.9255224  5.0388504 4.002201  5.639777 13.896859
