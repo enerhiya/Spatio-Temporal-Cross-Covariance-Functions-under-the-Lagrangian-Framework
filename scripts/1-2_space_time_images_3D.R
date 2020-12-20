@@ -46,20 +46,18 @@ for(start_hr in 141:141){
 			
 			if(hr_count == 1 & variable == 2){
 			quilt.plot(dat3[, 1], dat3[, 2], dat2[hr, ], nx = 25, ny = 25, zlim = zlim_range2, ylab = '', xlab = '', cex.lab = 4, add.legend = F, cex.axis = 2)
-			points(cbind(dat3[320, 1], dat3[320, 2]), col = 'black', pch = 4, cex = 4, lwd = 4)
 			mtext('985 hPa', side = 2, line = 7, adj = 0.5, cex = 3, font = 2, col = 'blue')
 			}else if(hr_count == 1 & variable == 1){
 			quilt.plot(dat3[, 1], dat3[, 2], dat[hr, ], nx = 25, ny = 25, zlim = zlim_range1, ylab = '', xlab = '', xaxt = 'n', cex.lab = 4, add.legend = F, cex.axis = 2)
-			points(cbind(dat3[412, 1], dat3[412, 2]), col = 'black', pch = 4, cex = 4, lwd = 4)
 			mtext('850 hPa', side = 2, line = 7, adj = 0.5, cex = 3, font = 2, col = 'blue')
 			}else if(variable == 2){
 			quilt.plot(dat3[, 1], dat3[, 2], dat2[hr, ], nx = 25, ny = 25, zlim = zlim_range2, ylab = '', xlab = '', yaxt = 'n', cex.lab = 4, add.legend = F, cex.axis = 2)
-			points(cbind(dat3[320, 1], dat3[320, 2]), col = 'black', pch = 4, cex = 4, lwd = 4)
 			}else{
 			quilt.plot(dat3[, 1], dat3[, 2], dat[hr, ], nx = 25, ny = 25, zlim = zlim_range1, ylab = '', xlab = '', xaxt = 'n', yaxt = 'n', cex.lab = 4, add.legend = F, cex.axis = 2)
-			points(cbind(dat3[412, 1], dat3[412, 2]), col = 'black', pch = 4, cex = 4, lwd = 4)
 			}
 			map("worldHires", xlim = c(26.719, 85.078), ylim = c(5.625, 42.188), lwd = 0.75, add = T)
+			points(cbind(dat3[190, 1], dat3[190, 2]), col = 'black', pch = 4, cex = 4, lwd = 6)
+			points(cbind(dat3[422, 1], dat3[422, 2]), col = 'black', pch = 4, cex = 4, lwd = 6)
 			
 			if(hr_count == 1){
 				mtext('Latitude', side = 2, line = 4, adj = 0.5, cex = 2.5, font = 2)
