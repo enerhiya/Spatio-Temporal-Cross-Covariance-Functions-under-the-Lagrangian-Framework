@@ -16,15 +16,15 @@ for(yr in 1980:2019){
 	dat_temp[which(dat_temp < -25)] <- -25
 	dat2_temp[which(dat2_temp < -25)] <- -25
 
-	dat <- dat2 <- matrix(, ncol = 550, nrow = 31)
+	dat <- dat2 <- matrix(, ncol = 550, nrow = 20)
 
-	for(aa in 1:31){
-		dat[aa, ] <- colMeans(dat_temp[(aa - 1) * 8 + 1:8, ])
-		dat2[aa, ] <- colMeans(dat2_temp[(aa - 1) * 8 + 1:8, ])
-	}
+	#for(aa in 1:20){
+	#	dat[aa, ] <- colMeans(dat_temp[(aa - 1) * 2 + 1:2, ])
+	#	dat2[aa, ] <- colMeans(dat2_temp[(aa - 1) * 2 + 1:2, ])
+	#}
 
-	DAT <- dat
-	DAT2 <- dat2
+	DAT <- dat_temp #dat
+	DAT2 <- dat2_temp #dat2
 
 	Yhat1 <- res_mat1 <- DAT <- DAT - matrix(colMeans(DAT), ncol = ncol(DAT), nrow = nrow(DAT), byrow = T)
 	Yhat2 <- res_mat2 <- DAT2 <- DAT2 - matrix(colMeans(DAT2), ncol = ncol(DAT2), nrow = nrow(DAT2), byrow = T)
