@@ -12,11 +12,10 @@ saudi <- map2SpatialPolygons(saudi, IDs=IDs, proj4string=CRS("+proj=longlat +dat
 
 for (yr in 2019:2019){
 
-	humid <- temp <- list()
+	data_array <- array(, dim = c(248, 550, 4, 2))
 
 	for(VAR in 1:2){
 		
-		data_array1 <- data_array2 <- data_array3 <- NULL
 
 		if(yr < 1992){
 			merra_ind <- 100
@@ -104,14 +103,13 @@ for (yr in 2019:2019){
 
 		N <- nrow(saudi_data_orig)/(8 * mnth_end)
 
-		data_array <- array(, dim = c(248, 550, 4))
+		data_array_temp <- array(, dim = c(248, 550, 4))
 		for(tt in 1:4){
 			data_temp <- matrix(saudi_data_orig[, tt + 2], ncol = N, byrow = T)
-			data_array[, , tt] <- data_temp
+			data_array_temp[, , tt] <- data_temp
 		}
-
-		humid[[VAR]] <- data_array1
-		temp[[VAR]] <- data_array2
+		
+		data_array[, , , VAR] <- data_array_temp
 
 	}
 
@@ -119,5 +117,3 @@ for (yr in 2019:2019){
 
 save(data_array, file = paste(root, "Data/ncdf/covariates_", yr, '.RData', sep = ''))
 
-	write.table(humid[[1]], file = paste(root, "Data/ncdf/humid_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
-	write.table(temp[[1]], file = paste(root, "Data/ncdf/temp_", yr, sep = ''), sep = " ", row.names = FALSE, col.names = FALSE)
