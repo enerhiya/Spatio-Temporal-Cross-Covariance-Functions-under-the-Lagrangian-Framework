@@ -47,8 +47,8 @@ for(yr in 1980:2019){
 		ncin <- nc_open(ncname)
 
 		DAT_array <- ncvar_get(ncin,dname1)
-		u_array <- DAT_array[,, 63, ]
-		v_array <- DAT_array[,, 72, ]
+		u_array <- DAT_array[,, 65, ]
+		v_array <- DAT_array[,, 68, ]
 
 		# get longitude and latitude
 		lon <- ncvar_get(ncin,"lon")
@@ -75,8 +75,8 @@ for(yr in 1980:2019){
 			ncin <- nc_open(ncname)
 
 			DAT_array <- ncvar_get(ncin,dname1)
-			u_array <- DAT_array[,, 63, ]
-			v_array <- DAT_array[,, 72, ]
+			u_array <- DAT_array[,, 65, ]
+			v_array <- DAT_array[,, 68, ]
 
 			nc_close(ncin)
 

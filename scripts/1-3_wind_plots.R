@@ -10,7 +10,9 @@ saudi<- map("world", "Saudi", fill = TRUE)
 IDs <- sapply(strsplit(saudi$names, ":"), function(x) x[1])
 saudi <- map2SpatialPolygons(saudi, IDs=IDs, proj4string=CRS("+proj=longlat +datum=WGS84"))
 
-for (yr in 2019:2019){
+WIND_MAT <- matrix(, ncol = 4, nrow = 40)
+
+for (yr in 1980:2019){
 
 	wind_U_component <- wind_V_component <- list()
 
@@ -43,7 +45,8 @@ for (yr in 2019:2019){
 			mo <- mnth
 		}
 
-		ncname <- paste("/home/salvanmo/Downloads/MERRA/wind/MERRA2_", merra_ind, ".inst3_3d_asm_Nv.", yr, "0101.SUB.nc", sep='')   
+		ncname <- paste("/home/salvanmo/Downloads/MERRA2_", merra_ind, ".inst3_3d_asm_Nv.", yr, "0101.SUB.nc", sep='')   
+		#ncname <- paste("/home/salvanmo/Downloads/MERRA/wind/MERRA2_", merra_ind, ".inst3_3d_asm_Nv.", yr, "0101.SUB.nc", sep='')   
 
 		ncin <- nc_open(ncname)
 		
@@ -59,7 +62,7 @@ for (yr in 2019:2019){
 
 		nc_close(ncin)
 
-		if(VAR == 1)	lev <- 63	else	lev <- 72
+		if(VAR == 1)	lev <- 65	else	lev <- 68
 
 		U <- u_array[,, lev, ]
 		V <- v_array[,, lev, ]
@@ -74,9 +77,11 @@ for (yr in 2019:2019){
 
 			cat('READING NETCDF DATA ===> year: ', yr, 'month: ', mnth, 'day: ', day, '\n')
 			if(day > 9){
-				ncname <- paste("/home/salvanmo/Downloads/MERRA/wind/MERRA2_", merra_ind, ".inst3_3d_asm_Nv.", yr, mo, day,".SUB.nc", sep='')
+				ncname <- paste("/home/salvanmo/Downloads/MERRA2_", merra_ind, ".inst3_3d_asm_Nv.", yr, mo, day,".SUB.nc", sep='')
+				#ncname <- paste("/home/salvanmo/Downloads/MERRA/wind/MERRA2_", merra_ind, ".inst3_3d_asm_Nv.", yr, mo, day,".SUB.nc", sep='')
 			}else{
-				ncname <- paste("/home/salvanmo/Downloads/MERRA/wind/MERRA2_", merra_ind, ".inst3_3d_asm_Nv.", yr, mo, "0",day,".SUB.nc", sep='')
+				ncname <- paste("/home/salvanmo/Downloads/MERRA2_", merra_ind, ".inst3_3d_asm_Nv.", yr, mo, "0",day,".SUB.nc", sep='')
+				#ncname <- paste("/home/salvanmo/Downloads/MERRA/wind/MERRA2_", merra_ind, ".inst3_3d_asm_Nv.", yr, mo, "0",day,".SUB.nc", sep='')
 			}
 			ncin <- nc_open(ncname)
 
@@ -107,12 +112,73 @@ for (yr in 2019:2019){
 		wind_V_component[[VAR]] <- data_array2
 
 	}
-
+	WIND_MAT[yr - 1979, 1] <- mean(wind_U_component[[1]][140:144, ])
+	WIND_MAT[yr - 1979, 2] <- mean(wind_V_component[[1]][140:144, ])
+	WIND_MAT[yr - 1979, 3] <- mean(wind_U_component[[2]][140:144, ])
+	WIND_MAT[yr - 1979, 4] <- mean(wind_V_component[[2]][140:144, ])
 }
 
 
 
-pdf(file = paste(root, 'thesis-defense/Figures/wind_data.pdf', sep = ''), width = 11, height = 6)
+pdf(file = paste('/home/salvanmo/Desktop/thesis/thesis-defense/Figures/wind_data.pdf', sep = ''), width = 15, height = 15)
+
+split.screen( rbind(c(0.06, 0.98, 0.05, 0.98), c(0.99,0.99,0.05,0.95)))
+split.screen( figs = c( 3, 3 ), screen = 1 )
+
+screen(3)
+par(pty = 's')
+par(mai=c(0.2,0.2,0.2,0.2))
+
+plot(WIND_MAT[, 1:2], xlab = "", ylab = "", cex.axis = 1.5, pch = 20, cex = 1, col = "#808080", ylim = range(WIND_MAT[, c(2, 4)]), xlim = range(WIND_MAT[, c(1, 3)]))
+abline(h = 0, v = 0, col = 1, lwd = 2, lty = 2)
+mtext(bquote(paste(V[y], " (880 hPa) ")), side = 3, line = 0, adj = 0.5, cex = 2)
+mtext(bquote(paste(V[x], " (880 hPa) ")) , side = 2, line = 3, adj = 0.5, cex = 2)
+
+screen(11)
+par(pty = 's')
+par(mai=c(0.2,0.2,0.2,0.2))
+
+plot(WIND_MAT[, 3:4], xlab = "", ylab = "", cex.axis = 1.5, pch = 20, cex = 1, col = "#808080", ylim = range(WIND_MAT[, c(2, 4)]), xlim = range(WIND_MAT[, c(1, 3)]))
+abline(h = 0, v = 0, col = 1, lwd = 2, lty = 2)
+mtext(bquote(paste(V[x], " (925 hPa) ")) , side = 2, line = 3, adj = 0.5, cex = 2)
+
+screen(4)
+par(pty = 's')
+par(mai=c(0.2,0.2,0.2,0.2))
+
+plot(WIND_MAT[, c(1, 3)], xlab = "", ylab = "", cex.axis = 1.5, pch = 20, cex = 1, col = "#808080", ylim = range(WIND_MAT[, c(2, 4)]), xlim = range(WIND_MAT[, c(1, 3)]), yaxt = 'n', xaxt = 'n')
+abline(h = 0, v = 0, col = 1, lwd = 2, lty = 2)
+mtext(bquote(paste(V[x], " (925 hPa) ")), side = 3, line = 0, adj = 0.5, cex = 2)
+  
+screen(8)
+par(pty = 's')
+par(mai=c(0.2,0.2,0.2,0.2))
+
+plot(WIND_MAT[, c(2, 4)], xlab = "", ylab = "", cex.axis = 1.5, pch = 20, cex = 1, col = "#808080", ylim = range(WIND_MAT[, c(2, 4)]), xlim = range(WIND_MAT[, c(1, 3)]), yaxt = 'n', xaxt = 'n')
+abline(h = 0, v = 0, col = 1, lwd = 2, lty = 2)
+
+screen(5)
+par(pty = 's')
+par(mai=c(0.2,0.2,0.2,0.2))
+
+plot(WIND_MAT[, c(1, 4)], xlab = "", ylab = "", cex.axis = 1.5, pch = 20, cex = 1, col = "#808080", ylim = range(WIND_MAT[, c(2, 4)]), xlim = range(WIND_MAT[, c(1, 3)]), yaxt = 'n', xaxt = 'n')
+abline(h = 0, v = 0, col = 1, lwd = 2, lty = 2)
+mtext(bquote(paste(V[y], " (925 hPa) ")), side = 3, line = 0, adj = 0.5, cex = 2)
+
+screen(7)
+par(pty = 's')
+par(mai=c(0.2,0.2,0.2,0.2))
+
+plot(WIND_MAT[, c(2, 3)], xlab = "", ylab = "", cex.axis = 1.5, pch = 20, cex = 1, col = "#808080", ylim = range(WIND_MAT[, c(2, 4)]), xlim = range(WIND_MAT[, c(1, 3)]))
+abline(h = 0, v = 0, col = 1, lwd = 2, lty = 2)
+mtext(bquote(paste(V[y], " (880 hPa) ")) , side = 2, line = 3, adj = 0.5, cex = 2)
+
+close.screen( all=TRUE)
+dev.off()
+
+
+
+pdf(file = paste('/home/salvanmo/Desktop/thesis/thesis-defense/Figures/wind_data_OLD.pdf', sep = ''), width = 11, height = 6)
 
 split.screen( rbind(c(0.08, 0.52, 0.03, 0.98), c(0.55, 0.99, 0.03, 0.98), c(0.99,0.99,0.05,0.95)))
 

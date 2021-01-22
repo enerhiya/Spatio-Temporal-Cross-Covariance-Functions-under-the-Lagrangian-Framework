@@ -10,7 +10,7 @@ saudi<- map("world", "Saudi", fill = TRUE)
 IDs <- sapply(strsplit(saudi$names, ":"), function(x) x[1])
 saudi <- map2SpatialPolygons(saudi, IDs=IDs, proj4string=CRS("+proj=longlat +datum=WGS84"))
 
-for (yr in 2019:2019){
+for (yr in 1980:2019){
 
 	data_array <- array(, dim = c(248, 550, 4, 2))
 
@@ -61,7 +61,7 @@ for (yr in 2019:2019){
 
 		nc_close(ncin)
 
-		if(VAR == 1)	lev <- 63	else	lev <- 72
+		if(VAR == 1)	lev <- 65	else	lev <- 68
 
 		U <- u_array[,, lev, ]
 		V <- v_array[,, lev, ]
@@ -112,8 +112,8 @@ for (yr in 2019:2019){
 		data_array[, , , VAR] <- data_array_temp
 
 	}
+	save(data_array, file = paste(root, "Data/ncdf/covariates_", yr, '.RData', sep = ''))
 
 }
 
-save(data_array, file = paste(root, "Data/ncdf/covariates_", yr, '.RData', sep = ''))
 
