@@ -129,49 +129,61 @@ screen(3)
 par(pty = 's')
 par(mai=c(0.2,0.2,0.2,0.2))
 
-plot(WIND_MAT[, 1:2], xlab = "", ylab = "", cex.axis = 1.5, pch = 20, cex = 1, col = "#808080", ylim = range(WIND_MAT[, c(2, 4)]), xlim = range(WIND_MAT[, c(1, 3)]))
+plot(WIND_MAT[, c(2, 1)], xlab = "", ylab = "", cex.axis = 1.5, pch = 20, cex = 1, col = "#808080", ylim = c(-max(WIND_MAT), max(WIND_MAT)), xlim = c(-max(WIND_MAT), max(WIND_MAT)))
 abline(h = 0, v = 0, col = 1, lwd = 2, lty = 2)
-mtext(bquote(paste(V[y], " (880 hPa) ")), side = 3, line = 0, adj = 0.5, cex = 2)
-mtext(bquote(paste(V[x], " (880 hPa) ")) , side = 2, line = 3, adj = 0.5, cex = 2)
+mtext(bquote(paste(v[y], " (880 hPa) ")), side = 3, line = 0, adj = 0.5, cex = 2)
+mtext(bquote(paste(v[x], " (880 hPa) ")) , side = 2, line = 3, adj = 0.5, cex = 2)
+ellipse(mu = c(mu1_ms[2], mu1_ms[1]), sigma = wind_var_ms2[c(2,1), c(2,1)], alpha = .05, npoints = 250, col = "#e54457", lwd = 2) 
+points(matrix(c(mu1_ms[2], mu1_ms[1]), ncol = 2), pch = 8, lwd = 4, cex = 2, col = "#e54457")
 
 screen(11)
 par(pty = 's')
 par(mai=c(0.2,0.2,0.2,0.2))
 
-plot(WIND_MAT[, 3:4], xlab = "", ylab = "", cex.axis = 1.5, pch = 20, cex = 1, col = "#808080", ylim = range(WIND_MAT[, c(2, 4)]), xlim = range(WIND_MAT[, c(1, 3)]))
+plot(WIND_MAT[, c(4, 3)], xlab = "", ylab = "", cex.axis = 1.5, pch = 20, cex = 1, col = "#808080", ylim = c(-max(WIND_MAT), max(WIND_MAT)), xlim = c(-max(WIND_MAT), max(WIND_MAT)))
 abline(h = 0, v = 0, col = 1, lwd = 2, lty = 2)
-mtext(bquote(paste(V[x], " (925 hPa) ")) , side = 2, line = 3, adj = 0.5, cex = 2)
+mtext(bquote(paste(v[x], " (925 hPa) ")) , side = 2, line = 3, adj = 0.5, cex = 2)
+ellipse(mu = c(mu2_ms[2], mu2_ms[1]), sigma = wind_var_ms2[c(4, 3), c(4, 3)], alpha = .05, npoints = 250, col = "#e54457", lwd = 2) 
+points(matrix(c(mu2_ms[2], mu2_ms[1]), ncol = 2), pch = 8, lwd = 4, cex = 2, col = "#e54457")
 
 screen(4)
 par(pty = 's')
 par(mai=c(0.2,0.2,0.2,0.2))
 
-plot(WIND_MAT[, c(1, 3)], xlab = "", ylab = "", cex.axis = 1.5, pch = 20, cex = 1, col = "#808080", ylim = range(WIND_MAT[, c(2, 4)]), xlim = range(WIND_MAT[, c(1, 3)]), yaxt = 'n', xaxt = 'n')
+plot(WIND_MAT[, c(3, 1)], xlab = "", ylab = "", cex.axis = 1.5, pch = 20, cex = 1, col = "#808080", ylim = c(-max(WIND_MAT), max(WIND_MAT)), xlim = c(-max(WIND_MAT), max(WIND_MAT)), yaxt = 'n', xaxt = 'n')
 abline(h = 0, v = 0, col = 1, lwd = 2, lty = 2)
-mtext(bquote(paste(V[x], " (925 hPa) ")), side = 3, line = 0, adj = 0.5, cex = 2)
+mtext(bquote(paste(v[x], " (925 hPa) ")), side = 3, line = 0, adj = 0.5, cex = 2)
+ellipse(mu = c(mu2_ms[1], mu1_ms[1]), sigma = wind_var_ms2[c(3, 1), c(3, 1)], alpha = .05, npoints = 250, col = "#e54457", lwd = 2) 
+points(matrix(c(mu2_ms[1], mu1_ms[1]), ncol = 2), pch = 8, lwd = 4, cex = 2, col = "#e54457")
   
 screen(8)
 par(pty = 's')
 par(mai=c(0.2,0.2,0.2,0.2))
 
-plot(WIND_MAT[, c(2, 4)], xlab = "", ylab = "", cex.axis = 1.5, pch = 20, cex = 1, col = "#808080", ylim = range(WIND_MAT[, c(2, 4)]), xlim = range(WIND_MAT[, c(1, 3)]), yaxt = 'n', xaxt = 'n')
+plot(WIND_MAT[, c(4, 2)], xlab = "", ylab = "", cex.axis = 1.5, pch = 20, cex = 1, col = "#808080", ylim = c(-max(WIND_MAT), max(WIND_MAT)), xlim = c(-max(WIND_MAT), max(WIND_MAT)), yaxt = 'n', xaxt = 'n')
 abline(h = 0, v = 0, col = 1, lwd = 2, lty = 2)
+ellipse(mu = c(mu2_ms[2], mu1_ms[2]), sigma = wind_var_ms2[c(4, 2), c(4, 2)], alpha = .05, npoints = 250, col = "#e54457", lwd = 2) 
+points(matrix(c(mu2_ms[2], mu1_ms[2]), ncol = 2), pch = 8, lwd = 4, cex = 2, col = "#e54457")
 
 screen(5)
 par(pty = 's')
 par(mai=c(0.2,0.2,0.2,0.2))
 
-plot(WIND_MAT[, c(1, 4)], xlab = "", ylab = "", cex.axis = 1.5, pch = 20, cex = 1, col = "#808080", ylim = range(WIND_MAT[, c(2, 4)]), xlim = range(WIND_MAT[, c(1, 3)]), yaxt = 'n', xaxt = 'n')
+plot(WIND_MAT[, c(4, 1)], xlab = "", ylab = "", cex.axis = 1.5, pch = 20, cex = 1, col = "#808080", ylim = c(-max(WIND_MAT), max(WIND_MAT)), xlim = c(-max(WIND_MAT), max(WIND_MAT)), yaxt = 'n', xaxt = 'n')
 abline(h = 0, v = 0, col = 1, lwd = 2, lty = 2)
-mtext(bquote(paste(V[y], " (925 hPa) ")), side = 3, line = 0, adj = 0.5, cex = 2)
+mtext(bquote(paste(v[y], " (925 hPa) ")), side = 3, line = 0, adj = 0.5, cex = 2)
+ellipse(mu = c(mu2_ms[2], mu1_ms[1]), sigma = wind_var_ms2[c(4, 1), c(4, 1)], alpha = .05, npoints = 250, col = "#e54457", lwd = 2) 
+points(matrix(c(mu2_ms[2], mu1_ms[1]), ncol = 2), pch = 8, lwd = 4, cex = 2, col = "#e54457")
 
 screen(7)
 par(pty = 's')
 par(mai=c(0.2,0.2,0.2,0.2))
 
-plot(WIND_MAT[, c(2, 3)], xlab = "", ylab = "", cex.axis = 1.5, pch = 20, cex = 1, col = "#808080", ylim = range(WIND_MAT[, c(2, 4)]), xlim = range(WIND_MAT[, c(1, 3)]))
+plot(WIND_MAT[, c(3, 2)], xlab = "", ylab = "", cex.axis = 1.5, pch = 20, cex = 1, col = "#808080", ylim = c(-max(WIND_MAT), max(WIND_MAT)), xlim = c(-max(WIND_MAT), max(WIND_MAT)))
 abline(h = 0, v = 0, col = 1, lwd = 2, lty = 2)
-mtext(bquote(paste(V[y], " (880 hPa) ")) , side = 2, line = 3, adj = 0.5, cex = 2)
+mtext(bquote(paste(v[y], " (880 hPa) ")) , side = 2, line = 3, adj = 0.5, cex = 2)
+ellipse(mu = c(mu2_ms[1], mu1_ms[2]), sigma = wind_var_ms2[c(3, 2), c(3, 2)], alpha = .05, npoints = 250, col = "#e54457", lwd = 2) 
+points(matrix(c(mu2_ms[1], mu1_ms[2]), ncol = 2), pch = 8, lwd = 4, cex = 2, col = "#e54457")
 
 close.screen( all=TRUE)
 dev.off()
@@ -214,4 +226,64 @@ points(matrix(c(-0.72022097, -0.84885145), ncol = 2), pch = 8, lwd = 4, cex = 2,
   
 close.screen( all=TRUE)
 dev.off()
+
+
+
+
+
+####### CONVERTING ADVECTION VELOCITY FROM DEG/3HRS TO KM/3HRS
+
+mu1 <- c( -0.01173841, -0.02089627)
+mu2 <- c(0.02873192, -0.03053685)
+
+wind_var <- matrix(c(0.044225813, 0.003904809, 0.05286808, 0.01294508, 0.003904809, 0.011216205, 0.01922954, 0.02109589, 0.052868084, 0.019229541, 0.09889986, 0.04511405, 0.012945081, 0.021095889, 0.04511405, 0.06660899), 4, 4)
+
+####### CONVERTING ADVECTION VELOCITY FROM KM/3HRS TO M/S
+
+est_vals <- c(median(p_vals[, 7]), median(p_vals[, 8]), median(p_vals[, 10]), median(p_vals[, 11]))
+est_vals <- c(median(p_vals[, 7]), median(p_vals[, 8]), median(p_vals[, 9]), median(p_vals[, 10]))
+est_vals <- c(median(p_vals[, 5]), median(p_vals[, 6]), median(p_vals[, 7]), median(p_vals[, 8]))
+(est_vals / 3) * (0.2778)
+
+#reverse the sign of the following numbers
+#M2: -0.2485011  0.6025650  0.3167604  2.3540665
+#M3: -0.81010468  0.09895062  0.72022097  0.84885145
+#M4: 0.008669427  0.049909815 -0.248501062  0.602564994
+
+####### CONVERTING ADVECTION VARIANCES FROM (KM/3HRS)^2 TO (M/S)^2
+
+set=85
+p <- read.table(paste(root, 'Results/multivariate_stationary_real_data_parameter_estimates_M2_set_', set, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
+wind_var_chol <- matrix(c(p[11], p[12], p[13], p[14], 0, p[15], p[16], p[17], 0, 0, p[18], p[19], 0, 0, 0, p[20]), ncol = 4, byrow = T)
+wind_var <- t(wind_var_chol) %*% wind_var_chol
+
+Sig11 <- wind_var[1:2, 1:2]
+Sig12 <- wind_var[1:2, 3:4]
+Sig22 <- wind_var[3:4, 3:4]
+cond_cov <- Sig11 - Sig12 %*% solve(Sig22) %*% t(Sig12)
+
+est_vals <- c(cond_cov[1, 1], cond_cov[1, 2], cond_cov[2, 2])
+(est_vals / 3^2) * 0.07716049
+
+#########################################################
+
+mu1 <- c(0.01222045, -0.07345084)
+mu2 <- c(0.06025701, 0.07327084)
+
+mu1 <- c(0.04082589, 0.06223707)
+mu2 <- c(-0.02917227, 0.04565329)
+
+mu1_ms <- (mu1 * 100 / 3) * (0.2778)
+mu2_ms <- (mu2 * 100 / 3) * (0.2778) 
+
+
+wind_var_ms2 <- (wind_var * 10000 / 3^2) * 0.07716049
+
+
+wind_var_ms2 <- matrix(c(5.477262,  2.517276, 5.274911, 2.486674, 2.517276, 10.220525, 2.186165, 10.11981, 5.274911, 2.186165, 5.200563,  2.164414, 2.486674, 10.11981, 2.164414, 10.196487), 4, 4)
+
+
+
+
+
 
