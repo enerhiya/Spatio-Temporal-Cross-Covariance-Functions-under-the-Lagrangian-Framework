@@ -8,20 +8,23 @@ source(file = paste(root, "Functions/auxiliary_functions.R",sep=''))
 
 yr <- 2019 #2010, 2016 is good
 
-dat <- read.table(paste(root, 'Data/ncdf/layer1_residuals_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
-dat2 <- read.table(paste(root, 'Data/ncdf/layer2_residuals_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
+dat <- read.table(paste(root, 'Data/ncdf/layer1_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
+dat2 <- read.table(paste(root, 'Data/ncdf/layer2_' , yr, sep = ''), header = FALSE, sep = " ") %>% as.matrix()
 dat3 <- read.table(paste(root, 'Data/ncdf/LOCS-3D-dataset', sep = ''), header = FALSE, sep = " ") %>% as.matrix()
+
+dat[which(dat < -25)] <- -25
+dat2[which(dat2 < -25)] <- -25
 
 pdf(file = paste(root, 'Figures/spacetime-maps-residuals-manuscript-NEW.pdf', sep = ''), width = 25, height = 10)
 
 day_count <- 0
 
-for(start_hr in 141:141){
+for(start_hr in 139:139){
 
 	cat(start_hr, '\n')
 
-	dat2 <- dat2 - matrix(colMeans(dat2), nrow = nrow(dat2), ncol = ncol(dat2), byrow = T) 
-	dat <- dat - matrix(colMeans(dat), nrow = nrow(dat), ncol = ncol(dat), byrow = T) 
+	dat2 <- dat2 #- matrix(colMeans(dat2), nrow = nrow(dat2), ncol = ncol(dat2), byrow = T) 
+	dat <- dat #- matrix(colMeans(dat), nrow = nrow(dat), ncol = ncol(dat), byrow = T) 
 
 	hr_index <- seq(start_hr, start_hr + 4, by = 1)
 
@@ -46,10 +49,10 @@ for(start_hr in 141:141){
 			
 			if(hr_count == 1 & variable == 2){
 			quilt.plot(dat3[, 1], dat3[, 2], dat2[hr, ], nx = 25, ny = 25, zlim = zlim_range2, ylab = '', xlab = '', cex.lab = 4, add.legend = F, cex.axis = 2)
-			mtext('985 hPa', side = 2, line = 7, adj = 0.5, cex = 3, font = 2, col = 'blue')
+			mtext('925 hPa', side = 2, line = 7, adj = 0.5, cex = 3, font = 2, col = 'blue')
 			}else if(hr_count == 1 & variable == 1){
 			quilt.plot(dat3[, 1], dat3[, 2], dat[hr, ], nx = 25, ny = 25, zlim = zlim_range1, ylab = '', xlab = '', xaxt = 'n', cex.lab = 4, add.legend = F, cex.axis = 2)
-			mtext('850 hPa', side = 2, line = 7, adj = 0.5, cex = 3, font = 2, col = 'blue')
+			mtext('880 hPa', side = 2, line = 7, adj = 0.5, cex = 3, font = 2, col = 'blue')
 			}else if(variable == 2){
 			quilt.plot(dat3[, 1], dat3[, 2], dat2[hr, ], nx = 25, ny = 25, zlim = zlim_range2, ylab = '', xlab = '', yaxt = 'n', cex.lab = 4, add.legend = F, cex.axis = 2)
 			}else{
@@ -77,7 +80,7 @@ for(start_hr in 141:141){
 	screen(2)
 	x1 <- c(0.025,0.12,0.12,0.025) + 0.1
 	y1 <- c(0.15,0.15,0.8,0.8)
-	legend.gradient2(cbind(x1,y1), title = "", limits = round(seq(zlim_range2[1], zlim_range2[2], length.out = 5), 1), CEX = 2)
+	legend.gradient2(cbind(x1,y1), title = "", limits = round(seq(zlim_range2[1], zlim_range2[2], length.out = 5), 0), CEX = 2)
 
 	close.screen( all=TRUE)
 
